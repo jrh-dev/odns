@@ -1,0 +1,9 @@
+inst/doc
+.Rhistory
+.RData
+.Ruserdata
+/*.tar.gz
+/*.Rcheck/
+vignettes/*.html
+vignettes/*.pdf
+.Renviron
