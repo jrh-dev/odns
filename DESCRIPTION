@@ -5,15 +5,20 @@ Authors@R: as.person(c(
     "James Hardy <jrh-dev@protonmail.com> [aut, cre]"
     ))
 Description: Allows potential users of Scottish Health and Social Care Open Data
- to easily explore and extract available data from opendata.nhs.scot.
+    to easily explore and extract available data from opendata.nhs.scot.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Depends: 
     R (>= 2.10)
+Imports:
+    glue,
+    jsonlite,
+    utils
 LazyData: true
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr

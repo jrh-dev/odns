@@ -1,5 +1,6 @@
 inst/doc
 .Rhistory
+.Rproj.user/
 .RData
 .Ruserdata
 /*.tar.gz
