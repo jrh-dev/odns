@@ -44,14 +44,14 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL) {
         "{if (!is.null(limit)) l else \"\"}"
       ))
     
-    print("nosql")
+    print("nosql") # for dev only, to rm
     
   } else {
     
     if (!is.null(where)) where <- parse_where(where, avl_f)
     
     if (!is.null(fields)) {
-      fields = c("Date", "Product", "Dose", "CumulativeNumberVaccinated")
+      
       fields <- paste0("\"", fields, "\"", collapse = ",")
       
     } else {
@@ -72,7 +72,7 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL) {
         "{if (is.null(limit)) \"\" else paste0(\" LIMIT \", limit)}"
       ))
     
-    print("sql")
+    print("sql") # for dev only, to rm
   }
   
   res <- httr::content(httr::POST(query))
