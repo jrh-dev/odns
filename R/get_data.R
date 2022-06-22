@@ -3,11 +3,12 @@
 #' @description Get data from a resource in tabular format.
 #' 
 #' @param resource A resource id identifying the data set to be returned.
-#' @param data_items Names of data items to be included in the returned table.
-#' @param limit Specify the maximum number of records to be returned, default NULL
-#'  value returns all records.
-#' @param default_ord When selecting columns with the `data_items` arg, `FALSE`
-#'  returns the columns in the order specified.
+#' @param fields Names of fields to be included in the returned table.
+#' @param limit Specify the maximum number of records to be returned, default 
+#'  NULL value returns all records. Note that specifying a limit > 99,999 or no 
+#'  limit forces the use of SQL, which carries a small performance penalty.
+#' @param where A string containing the 'WHERE' element of a simple SQL SELECT
+#'  style query
 #'  
 #' @return A data.frame containing the selected columns from the specified data
 #'  set.
@@ -22,32 +23,67 @@
 #' }
 #' 
 #' @export
-get_data <- function(resource, data_items = NULL, limit = NULL, default_ord = FALSE) {
+get_data <- function(resource, fields = NULL, limit = NULL, where = NULL) {
   
-  if (!is.null(data_items)) {
-    parse_data_items <- paste0("\"", data_items, "\"", collapse = ",")
-  } else {
-    parse_data_items <- "*"
-  }
+  avl_f <- field_metadata(resource)$id
   
-  stopifnot(length(resource) == 1)
+  if (!is.null(limit)) limit <- as.integer(limit)
   
-  res <- jsonlite::fromJSON(
-    utils::URLencode(
+  stopifnot(all(fields %in% avl_f))
+  
+  if (!(is.null(limit) || limit > 99999) & is.null(where)) {
+    
+    f = glue::glue("&fields={paste0(fields, collapse = \",\")}")
+    l = glue::glue("&limit={paste0(limit, collapse = \",\")}")
+    
+    query <- utils::URLencode(
       glue::glue(
-        "https://www.opendata.nhs.scot/api/3/action/",
-        "datastore_search_sql?",
+        "https://www.opendata.nhs.scot/api/3/action/datastore_search?",
+        "id={resource}",
+        "{if (!is.null(fields)) f else \"\"}",
+        "{if (!is.null(limit)) l else \"\"}"
+      ))
+    
+    print("nosql")
+    
+  } else {
+    
+    if (!is.null(where)) where <- parse_where(where, avl_f)
+    
+    if (!is.null(fields)) {
+      fields = c("Date", "Product", "Dose", "CumulativeNumberVaccinated")
+      fields <- paste0("\"", fields, "\"", collapse = ",")
+      
+    } else {
+      
+      fields <- "*"
+      
+    }
+    
+    query <- utils::URLencode(
+      glue::glue(
+        "https://www.opendata.nhs.scot/api/3/action/datastore_search_sql?",
         "sql=",
-        "SELECT {parse_data_items} FROM ",
+        "SELECT {fields} FROM ",
         "\"",
         "{resource}",
         "\"",
+        "{if (is.null(where)) \"\" else glue::glue(\"WHERE {where}\")}",
         "{if (is.null(limit)) \"\" else paste0(\" LIMIT \", limit)}"
-      )))
+      ))
+    
+    print("sql")
+  }
   
-  stopifnot(as.logical(res$success))
+  res <- httr::content(httr::POST(query))
   
-  if (!default_ord) res$result$records <- res$result$records[data_items]
+  out = as.data.frame(purrr::map_dfr(res$result$records, ~.x), stringsAsFactors = FALSE)
   
-  return(res$result$records)
+  if (!is.null(where)) out = utils::type.convert(out, as.is = TRUE)
+  
+  rm_col <- -which(names(out) %in% c("_full_text", "_id"))
+  
+  if (length(rm_col) > 0) out <- out[ , rm_col]
+  
+  return(out)
 }
