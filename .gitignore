@@ -1,10 +1,12 @@
 inst/doc
-.Rhistory
-.Rproj.user/
-.RData
-.Ruserdata
+*.Rhistory
+*.Rproj.user/
+*.Rproj
+*.RData
+*.Ruserdata
 /*.tar.gz
 /*.Rcheck/
 vignettes/*.html
 vignettes/*.pdf
-.Renviron
+*.Renviron
+*.Rproj.user

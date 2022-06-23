@@ -4,18 +4,19 @@
 \alias{get_data}
 \title{Get data from a resource.}
 \usage{
-get_data(resource, data_items = NULL, limit = NULL, default_ord = FALSE)
+get_data(resource, fields = NULL, limit = NULL, where = NULL)
 }
 \arguments{
 \item{resource}{A resource id identifying the data set to be returned.}
 
-\item{data_items}{Names of data items to be included in the returned table.}
+\item{fields}{Names of fields to be included in the returned table.}
 
-\item{limit}{Specify the maximum number of records to be returned, default NULL
-value returns all records.}
+\item{limit}{Specify the maximum number of records to be returned, default
+NULL value returns all records. Note that specifying a limit > 99,999 or no
+limit forces the use of SQL, which carries a small performance penalty.}
 
-\item{default_ord}{When selecting columns with the \code{data_items} arg, \code{FALSE}
-returns the columns in the order specified.}
+\item{where}{A string containing the 'WHERE' element of a simple SQL SELECT
+style query}
 }
 \value{
 A data.frame containing the selected columns from the specified data
@@ -32,4 +33,5 @@ get_data(
   limit = 10
   )
 }
+
 }
