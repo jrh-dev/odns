@@ -1,30 +1,30 @@
-#' Lists 'packages' available from opendata.nhs.scot
+#' Lists 'packages' available from opendata.nhs.scot.
 #' 
-#' @description Lists all 'packages' available from opendata.nhs.scot. With the
-#'  option to limit results based on a regular expression.
+#' @description Lists all 'packages' available from opendata.nhs.scot as a
+#'  character vector, with the option to limit results based on a regular
+#'  expression.
 #'  
-#' @param contains character string treated as a regular expression to be 
-#'  matched against the package names returned.
+#' @param contains a character string containing a regular expression to be 
+#'  matched against a vector of available package names. If a character vector >
+#'  length 1 is supplied, the first element is used.
 #' 
 #' @return a character vector containing the names of all available packages,
-#'  or those containing the string specified in the contains argument.
+#'  or those containing the string specified in the \code{contains} argument.
 #'  
 #' @examples
 #' \dontrun{
 #' all_packages()
-#' all_packages(contains = "population")
+#' all_packages(contains = "standard-populations")
 #' }
 #' 
 #' @export
 all_packages <- function(contains = NULL) {
   
-  if (length(contains) > 1) stop ("length of contains argument > 1.")
+  res <- httr::GET("https://www.opendata.nhs.scot/api/3/action/package_list")
   
-  res <- jsonlite::fromJSON("https://www.opendata.nhs.scot/api/3/action/package_list")
+  httr::stop_for_status(res)
   
-  stopifnot(as.logical(res$success))
-  
-  pac <- res$result
+  pac <- unlist(httr::content(res)$result)
   
   if (!is.null(contains)) {
     pac <- pac[grepl(as.character(contains), pac, ignore.case = TRUE)]

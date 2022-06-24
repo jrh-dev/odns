@@ -1,9 +1,8 @@
-#' Get a table of available fields and their field_metadata for a given
-#'  resource.
+#' Get a table of available fields and their types for a specified resource.
 #'
 #' @param resource a valid resource id.
 #'
-#' @return a table containing the names and types of all data items available
+#' @return a data.frame detailing the names and types of all fields available
 #'  for the chosen resource.
 #'
 #' @examples
@@ -14,14 +13,23 @@
 #' @export
 resource_metadata <- function(resource) {
 
-  res <- jsonlite::fromJSON(
-  utils::URLencode(
+  query <- utils::URLencode(
     glue::glue(
       "https://www.opendata.nhs.scot/api/3/action/",
       "datastore_search?id={resource}&limit=0"
-    )))
-
-  stopifnot(as.logical(res$success))
-
-  return(res$result$fields)
+    ))
+  
+  cap_url(query)
+  
+  res = httr::GET(query)
+  
+  httr::stop_for_status(res)
+  
+  cont = httr::content(res)
+  
+  cont = lapply(cont$result$fields, as.data.frame, stringsAsFactors = FALSE)
+  
+  cont = as.data.frame(purrr::map_dfr(cont, ~.x), stringsAsFactors = FALSE)[c("id", "type")]
+  
+  return(cont)
 }

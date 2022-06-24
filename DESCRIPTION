@@ -14,11 +14,18 @@ Depends:
     R (>= 2.10)
 Imports:
     glue,
+    httr,
     jsonlite,
-    utils
+    purrr,
+    utils,
+    dplyr,
+    data.table
 LazyData: true
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat (>= 3.0.0),
+    mockery,
+    digest
 VignetteBuilder: knitr
+Config/testthat/edition: 3

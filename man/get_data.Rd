@@ -16,7 +16,8 @@ NULL value returns all records. Note that specifying a limit > 99,999 or no
 limit forces the use of SQL, which carries a small performance penalty.}
 
 \item{where}{A string containing the 'WHERE' element of a simple SQL SELECT
-style query}
+style query. Field names must be double quoted, non numeric values must be
+single quoted, and single and double quotes must be delimited.}
 }
 \value{
 A data.frame containing the selected columns from the specified data
@@ -29,8 +30,9 @@ Get data from a resource in tabular format.
 \dontrun{
 get_data(
   resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-  data_items = c("Dose", "CumulativeNumberVaccinated"),
-  limit = 10
+  fields = c("Product", "Dose", "CumulativeNumberVaccinated"),
+  limit = 10,
+  where = "\"Product\" = \'Total\'"
   )
 }
 

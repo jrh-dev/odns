@@ -2,8 +2,7 @@
 % Please edit documentation in R/resource_metadata.R
 \name{resource_metadata}
 \alias{resource_metadata}
-\title{Get a table of available fields and their field_metadata for a given
-resource.}
+\title{Get a table of available fields and their types for a specified resource.}
 \usage{
 resource_metadata(resource)
 }
@@ -11,16 +10,15 @@ resource_metadata(resource)
 \item{resource}{a valid resource id.}
 }
 \value{
-a table containing the names and types of all data items available
+a data.frame detailing the names and types of all fields available
 for the chosen resource.
 }
 \description{
-Get a table of available fields and their field_metadata for a given
-resource.
+Get a table of available fields and their types for a specified resource.
 }
 \examples{
 \dontrun{
-field_metadata(resource="8f7b64b1-eb53-43e9-b888-45af0bc25505")
+resource_metadata(resource="8f7b64b1-eb53-43e9-b888-45af0bc25505")
 }
 
 }
