@@ -20,18 +20,18 @@
 #'  
 #' @examples
 #' \dontrun{
-#' get_dataset(
+#' get_resource(
 #'   package = "4dd86111-7326-48c4-8763-8cc4aa190c3e",
 #'   limit = 5L
 #'   )
 #'   
-#' get_dataset(
+#' get_resource(
 #'   package = "4dd86111-7326-48c4-8763-8cc4aa190c3e",
 #'   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
 #'   limit = 5L
 #'   )
 #' 
-#' get_dataset(
+#' get_resource(
 #'   package = "standard-populations",
 #'   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
 #'   limit = 5L

@@ -15,9 +15,9 @@
 #'  limit > 99,999 or no limit forces the use of SQL, which carries a small
 #'  performance penalty.
 #' @param where A character string containing the 'WHERE' element of a simple
-#'  SQL SELECT style query. Field names must be double quoted (\code{"}), non 
-#'  numeric values must be single quoted (\code{"}), and both single and double
-#'  quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
+#'  SQL SELECT style query. Field names must be double quoted (\code{"}),
+#'  non-numeric values must be single quoted (\code{"}), and both single and
+#'  double quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
 #'  \'45-49 years\\'"}.
 #'
 #' @return A data.frame.

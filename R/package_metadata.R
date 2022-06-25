@@ -10,7 +10,7 @@
 #' @examples
 #' \dontrun{
 #' package_metadata(package = "standard-populations")
-#' package_metadata(package = "edee9731-daf7-4e0d-b525-e4c1469b8f69")
+#' package_metadata(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e")
 #' }
 #' 
 #' @export
