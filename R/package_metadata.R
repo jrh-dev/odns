@@ -2,8 +2,8 @@
 #' 
 #' @description Get a specified packages metadata as a list.
 #'  
-#' @param package A character of length 1 specifying a package id or name which 
-#'  identifies the package for which metadata should be returned.
+#' @param package A character vector of length 1 specifying a package id or name
+#'  which identifies the package for which metadata should be returned.
 #'  
 #' @return a list containing the package metadata.
 #' 

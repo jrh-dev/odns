@@ -1,3 +1,5 @@
 ^LICENSE\.md$
 ^odns\.Rproj$
 ^\.Rproj\.user$
+^appveyor\.yml$
+^\.github$

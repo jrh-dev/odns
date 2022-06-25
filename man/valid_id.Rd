@@ -2,17 +2,17 @@
 % Please edit documentation in R/valid_id.R
 \name{valid_id}
 \alias{valid_id}
-\title{Basic check of whether the characters in a string is 36}
+\title{Basic check of whether the characters in a string is equal to 36}
 \usage{
 valid_id(x)
 }
 \arguments{
-\item{x}{a string}
+\item{x}{A character string.}
 }
 \value{
-logical value indicating whether the srting checked consists of 36
+logical value indicating whether the string checked consists of 36
 characters.
 }
 \description{
-Basic check of whether the characters in a string is 36
+Basic check of whether the characters in a string is equal to 36
 }

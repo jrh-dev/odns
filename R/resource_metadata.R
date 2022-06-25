@@ -1,13 +1,14 @@
 #' Get a table of available fields and their types for a specified resource.
 #'
-#' @param resource a valid resource id.
+#' @param resource A character string containing the resource id of the data set
+#'  to be returned.
 #'
-#' @return a data.frame detailing the names and types of all fields available
+#' @return A data.frame detailing the names and types of all fields available
 #'  for the chosen resource.
 #'
 #' @examples
 #' \dontrun{
-#' resource_metadata(resource="8f7b64b1-eb53-43e9-b888-45af0bc25505")
+#' resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
 #' }
 #'
 #' @export
@@ -29,7 +30,9 @@ resource_metadata <- function(resource) {
   
   cont = lapply(cont$result$fields, as.data.frame, stringsAsFactors = FALSE)
   
-  cont = as.data.frame(purrr::map_dfr(cont, ~.x), stringsAsFactors = FALSE)[c("id", "type")]
+  cont = data.table::setDF(
+    data.table::rbindlist(cont, use.names = TRUE, fill = TRUE)
+    )[c("id", "type")]
   
   return(cont)
 }

@@ -7,18 +7,23 @@
 prep_sql_query(resource, fields, limit, where)
 }
 \arguments{
-\item{resource}{A resource id identifying the data set to be returned.}
+\item{resource}{a character string specifying resource id of the data set
+to be returned.}
 
-\item{fields}{Names of fields to be included in the returned table.}
+\item{fields}{a character vector specifying the names of fields to be
+included in the returned data.}
 
-\item{limit}{Specify the maximum number of records to be returned.}
+\item{limit}{A numeric value specifying the maximum number of rows to be
+returned.}
 
-\item{where}{A string containing the 'WHERE' element of a simple SQL SELECT
-style query. Field names must be double quoted, non numeric values must be
-single quoted, and single and double quotes must be delimited.}
+\item{where}{A character string containing the 'WHERE' element of a simple
+SQL SELECT style query. Field names must be double quoted (\code{"}), non
+numeric values must be single quoted (\code{"}), and both single and double
+quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
+ \'45-49 years\\'"}.}
 }
 \value{
-A string containing the prepared query.
+A character string containing the prepared query.
 }
 \description{
 Prepare an API query with SQL.

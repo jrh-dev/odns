@@ -2,26 +2,28 @@
 % Please edit documentation in R/all_packages.R
 \name{all_packages}
 \alias{all_packages}
-\title{Lists 'packages' available from opendata.nhs.scot}
+\title{Lists 'packages' available from opendata.nhs.scot.}
 \usage{
 all_packages(contains = NULL)
 }
 \arguments{
-\item{contains}{character string treated as a regular expression to be
-matched against the package names returned.}
+\item{contains}{a character string containing a regular expression to be
+matched against a vector of available package names. If a character vector >
+length 1 is supplied, the first element is used.}
 }
 \value{
 a character vector containing the names of all available packages,
-or those containing the string specified in the contains argument.
+or those containing the string specified in the \code{contains} argument.
 }
 \description{
-Lists all 'packages' available from opendata.nhs.scot. With the
-option to limit results based on a regular expression.
+Lists all 'packages' available from opendata.nhs.scot as a
+character vector, with the option to limit results based on a regular
+expression.
 }
 \examples{
 \dontrun{
 all_packages()
-all_packages(contains = "population")
+all_packages(contains = "standard-populations")
 }
 
 }

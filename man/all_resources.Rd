@@ -2,32 +2,37 @@
 % Please edit documentation in R/all_resources.R
 \name{all_resources}
 \alias{all_resources}
-\title{Provides an overview of all 'resources' available from opendata.nhs.scot}
+\title{Provides an overview of all resources available from opendata.nhs.scot.}
 \usage{
 all_resources(package_contains = NULL, resource_contains = NULL)
 }
 \arguments{
-\item{package_contains}{character string treated as a regular expression to
-be matched against the package names returned.}
+\item{package_contains}{a character string containing a regular expression to
+be matched against available package names. If a character vector > length 1
+is supplied, the first element is used.}
 
-\item{resource_contains}{character string treated as a regular expression to
-be matched against the resource names returned.}
+\item{resource_contains}{a character string containing a regular expression
+to be matched against available resource names. If a character vector >
+length 1 is supplied, the first element is used.}
 }
 \value{
-a table containing the names of all available packages and resources,
-or those containing the string specified in the contains arguments, along
-with the resource ID.
+a data.frame containing details of all available packages and
+resources, or those containing the string specified in the
+\code{package_contains} and \code{resource_contains} arguments.
 }
 \description{
-Provides an overview of all 'resources' available from
-opendata.nhs.scot. With the option to limit results based on both package
-and resource names.
+Provides an overview of all resources available from
+opendata.nhs.scot, with the option to limit results based on both package
+and resource names. The returned data.frame can be used to look-up package
+and resource ids and is useful for exploring the available data sets.
 }
 \examples{
 \dontrun{
 all_resources()
-all_resources(package_contains = "population")
-all_resources(package_contains = "population", resource_contains = "GP")
+all_resources(package_contains = "standard-populations")
+all_resources(
+  package_contains = "standard-populations", resource_contains = "European"
+)
 }
 
 }

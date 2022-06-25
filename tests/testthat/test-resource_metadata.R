@@ -19,7 +19,6 @@ testthat::test_that('function correctly provides error response', {
   
   testthat::expect_error(resource_metadata(resource="abcdef"))
   
-  rm()
 })
 
 testthat::test_that('function returns a data.frame from live query', {

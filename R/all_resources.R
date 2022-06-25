@@ -32,8 +32,6 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
   
   if (length(pac) < 1) {
     
-    catch <- NULL
-    
     stop(glue::glue("No packages found with \"{package_contains}\" in name."))
     
   } else {

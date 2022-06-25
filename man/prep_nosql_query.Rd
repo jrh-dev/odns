@@ -7,14 +7,17 @@
 prep_nosql_query(resource, fields, limit)
 }
 \arguments{
-\item{resource}{A resource id identifying the data set to be returned.}
+\item{resource}{A character string specifying resource id of the data set
+to be returned.}
 
-\item{fields}{Names of fields to be included in the returned table.}
+\item{fields}{A character vector specifying the names of fields to be
+included in the returned data.}
 
-\item{limit}{Specify the maximum number of records to be returned.}
+\item{limit}{A numeric value specifying the maximum number of rows to be
+returned.}
 }
 \value{
-A string containing the prepared query.
+A character string containing the prepared query.
 }
 \description{
 Prepare an API query without SQL.

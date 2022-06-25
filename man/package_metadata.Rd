@@ -2,24 +2,24 @@
 % Please edit documentation in R/package_metadata.R
 \name{package_metadata}
 \alias{package_metadata}
-\title{Get a full representation of a packages metadata.}
+\title{Get metadata for a package.}
 \usage{
 package_metadata(package)
 }
 \arguments{
-\item{package}{a valid package name or package id.}
+\item{package}{A character vector of length 1 specifying a package id or name
+which identifies the package for which metadata should be returned.}
 }
 \value{
-a list of the package metadata.
+a list containing the package metadata.
 }
 \description{
-Get a full representation of a specified packages metadata
-as a list.
+Get a specified packages metadata as a list.
 }
 \examples{
 \dontrun{
-package_metadata(package = "gp-practice-populations")
-package_metadata(package = "e3300e98-cdd2-4f4e-a24e-06ee14fcc66c")
+package_metadata(package = "standard-populations")
+package_metadata(package = "edee9731-daf7-4e0d-b525-e4c1469b8f69")
 }
 
 }

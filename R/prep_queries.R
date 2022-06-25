@@ -1,13 +1,17 @@
 #' Prepare an API query without SQL.
 #'
-#' @param resource A resource id identifying the data set to be returned.
-#' @param fields Names of fields to be included in the returned table.
-#' @param limit Specify the maximum number of records to be returned.
+#' @param resource A character string specifying resource id of the data set
+#'  to be returned.
+#' @param fields A character vector specifying the names of fields to be
+#'  included in the returned data.
+#' @param limit A numeric value specifying the maximum number of rows to be
+#' returned.
 #'  
-#' @return A string containing the prepared query.
+#' @return A character string containing the prepared query.
 prep_nosql_query <- function(resource, fields, limit) {
   
-  if (is.null(limit) || limit > 99999) stop("Limit should be defined and <= 99,999")
+  stopifnot("resource should be a character string on length 1" = length(resource) == 1)
+  stopifnot("limit should be defined and <= 99,999" = !(is.null(limit) || limit > 99999))
   
   f = glue::glue("&fields={paste0(fields, collapse = \",\")}")
   l = glue::glue("&limit={paste0(limit, collapse = \",\")}")
@@ -27,15 +31,22 @@ prep_nosql_query <- function(resource, fields, limit) {
 
 #' Prepare an API query with SQL.
 #'
-#' @param resource A resource id identifying the data set to be returned.
-#' @param fields Names of fields to be included in the returned table.
-#' @param limit Specify the maximum number of records to be returned.
-#' @param where A string containing the 'WHERE' element of a simple SQL SELECT
-#'  style query. Field names must be double quoted, non numeric values must be
-#'  single quoted, and single and double quotes must be delimited.
+#' @param resource a character string specifying resource id of the data set
+#'  to be returned.
+#' @param fields a character vector specifying the names of fields to be
+#'  included in the returned data.
+#' @param limit A numeric value specifying the maximum number of rows to be
+#' returned.
+#' @param where A character string containing the 'WHERE' element of a simple
+#'  SQL SELECT style query. Field names must be double quoted (\code{"}), non 
+#'  numeric values must be single quoted (\code{"}), and both single and double
+#'  quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
+#'  \'45-49 years\\'"}.
 #'
-#' @return A string containing the prepared query.
+#' @return A character string containing the prepared query.
 prep_sql_query <- function(resource, fields, limit, where) {
+  
+  stopifnot("resource should be a character string on length 1" = length(resource) == 1)
   
   if (!is.null(fields)) fields <- paste0("\"", fields, "\"", collapse = ",")
   

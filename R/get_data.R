@@ -25,7 +25,7 @@
 #' @examples
 #' \dontrun{
 #' get_data(
-#' resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+#'   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
 #'   fields = c("AgeGroup", "EuropeanStandardPopulation"),
 #'   limit = 5L,
 #'   where = "\"AgeGroup\" = \'45-49 years\'"
@@ -35,6 +35,8 @@
 #' @export
 get_data <- function(resource, fields = NULL, limit = NULL, where = NULL) {
 
+  stopifnot("resource id not recognised, a valid id should be nchar 36" = valid_id(resource))
+  
   meta <- resource_metadata(resource)$id
 
   if (!is.null(limit)) limit <- as.integer(limit)
@@ -51,13 +53,15 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL) {
     
   }
 
-  res <- httr::POST(query)
+  res <- httr::GET(query)
   
   httr::stop_for_status(res)
   
   res <- httr::content(res)
 
-  out = as.data.frame(purrr::map_dfr(res$result$records, ~.x), stringsAsFactors = FALSE)
+  out = data.table::setDF(
+    data.table::rbindlist(res$result$records, use.names = TRUE, fill = TRUE)
+  )
 
   if (!is.null(where)) out = utils::type.convert(out, as.is = TRUE)
 

@@ -22,6 +22,11 @@
 #' \dontrun{
 #' get_dataset(
 #'   package = "4dd86111-7326-48c4-8763-8cc4aa190c3e",
+#'   limit = 5L
+#'   )
+#'   
+#' get_dataset(
+#'   package = "4dd86111-7326-48c4-8763-8cc4aa190c3e",
 #'   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
 #'   limit = 5L
 #'   )
@@ -58,5 +63,10 @@ get_dataset <- function(package, resource = NULL,  limit = Inf) {
     urls <- urls[!is.na(urls)]
   }
   
-  return(lapply(urls, data.table::fread, keepLeadingZeros = TRUE, data.table = FALSE, nrows = limit))
+  out <- lapply(urls, data.table::fread, keepLeadingZeros = TRUE, 
+                data.table = FALSE, nrows = limit, showProgress = FALSE)
+  
+  stopifnot("no datasets found using specified arguments" = length(out) > 0)
+  
+  return(out)
 }

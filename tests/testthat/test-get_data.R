@@ -6,17 +6,17 @@ testthat::test_that('no errors and successful run', {
   mockery::stub(get_data, 'resource_metadata', 
                 function(...) list(id=c("Product", "Dose", "CumulativeNumberVaccinated")))
   
-  mockery::stub(get_data, 'httr::POST', 
+  mockery::stub(get_data, 'httr::GET', 
                 function(...) res_get_data)
   
   testthat::expect_equal(
   digest::digest(get_data(
-    resource = "abc123",
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
     fields = c("Product", "Dose", "CumulativeNumberVaccinated"),
     limit = 10,
     where = "\"Product\" = \'Total\'"
   )),
-  "0ad490a212ccae03861803683ef3b221")
+  "371b4617421888aeb3e6171b1f39bc84")
 })
 
 
@@ -33,7 +33,7 @@ testthat::test_that("error when non-valid field value supplied to 'fields'", {
   
   testthat::expect_error(
     get_data(
-      resource = "abc123",
+      resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
       fields = c("Product", "Doses", "CumulativeNumberVaccinated"),
       limit = 10,
       where = "\"Product\" = \'Total\'"

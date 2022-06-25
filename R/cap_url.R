@@ -2,7 +2,7 @@
 #' 
 #' @description Used to ensure constructed URLs do not exceed 2000 caharacters.
 #' 
-#' @param x a string to check.
+#' @param x a character string to check.
 #' 
 #' @return invisible.
 cap_url <- function(x) {

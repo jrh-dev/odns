@@ -7,33 +7,41 @@
 get_data(resource, fields = NULL, limit = NULL, where = NULL)
 }
 \arguments{
-\item{resource}{A resource id identifying the data set to be returned.}
+\item{resource}{A character string containing the resource id of the data set
+to be returned.}
 
-\item{fields}{Names of fields to be included in the returned table.}
+\item{fields}{A character vector containing the names of fields to be
+included in the returned table. The input is checked to ensure the specified
+fields exist in the chosen resource.}
 
-\item{limit}{Specify the maximum number of records to be returned, default
-NULL value returns all records. Note that specifying a limit > 99,999 or no
-limit forces the use of SQL, which carries a small performance penalty.}
+\item{limit}{An integer specifying the maximum number of records to be
+returned, the default NULL value returns all records. Note that specifying a
+limit > 99,999 or no limit forces the use of SQL, which carries a small
+performance penalty.}
 
-\item{where}{A string containing the 'WHERE' element of a simple SQL SELECT
-style query. Field names must be double quoted, non numeric values must be
-single quoted, and single and double quotes must be delimited.}
+\item{where}{A character string containing the 'WHERE' element of a simple
+SQL SELECT style query. Field names must be double quoted (\code{"}), non
+numeric values must be single quoted (\code{"}), and both single and double
+quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
+ \'45-49 years\\'"}.}
 }
 \value{
-A data.frame containing the selected columns from the specified data
-set.
+A data.frame.
 }
 \description{
-Get data from a resource in tabular format.
+Get data from a resource in tabular format with the option to
+select fields and perform basic filtering. Where multiple data sets are
+required from a package and/or no field selection and filtering is required
+the \code{get_datasets} function can be used.
 }
 \examples{
 \dontrun{
 get_data(
-  resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-  fields = c("Product", "Dose", "CumulativeNumberVaccinated"),
-  limit = 10,
-  where = "\"Product\" = \'Total\'"
-  )
+  resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+  fields = c("AgeGroup", "EuropeanStandardPopulation"),
+  limit = 5L,
+  where = "\"AgeGroup\" = \'45-49 years\'"
+)
 }
 
 }

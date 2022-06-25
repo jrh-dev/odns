@@ -16,9 +16,7 @@ Imports:
     glue,
     httr,
     jsonlite,
-    purrr,
     utils,
-    dplyr,
     data.table
 LazyData: true
 Suggests: 

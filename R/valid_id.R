@@ -1,8 +1,8 @@
-#' Basic check of whether the characters in a string is 36
+#' Basic check of whether the characters in a string is equal to 36
 #' 
-#' @param x a string
+#' @param x A character string.
 #' 
-#' @return logical value indicating whether the srting checked consists of 36
+#' @return logical value indicating whether the string checked consists of 36
 #'  characters.
 valid_id <- function(x) {
   
