@@ -1,5 +1,5 @@
 ^LICENSE\.md$
 ^odns\.Rproj$
 ^\.Rproj\.user$
-^appveyor\.yml$
 ^\.github$
+^cran-comments\.md$

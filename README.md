@@ -34,7 +34,7 @@ install.packages("<path/to/file>", repos = NULL, type = "source")
 ### Language of CKAN
 CKAN and by extension this package refers to *packages* and *resources*. 
 
-The term *package* refers to a dataset, a collection of *resources*. A *resource*, holds the data itself.
+The term *package* refers to a dataset, a collection of *resources*. A *resource*, contains the data itself.
 
 Example of structure;
 

@@ -1,11 +1,9 @@
 Package: odns
-Title: Access Open Data from Nhs Scotland
+Title: Access Scottish Health and Social Care Open Data
 Version: 1.0.0
-Authors@R: as.person(c(
-    "James Hardy <jrh-dev@protonmail.com> [aut, cre]"
-    ))
+Authors@R: person("James", "Hardy", role=c("aut","cre"), email="jrh-dev@protonmail.com")
 Description: Allows potential users of Scottish Health and Social Care Open Data
-    to easily explore and extract available data from opendata.nhs.scot.
+    to easily explore and extract the available data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
