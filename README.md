@@ -1,4 +1,4 @@
-# odns - access Open Data from Nhs Scotland
+# odns - access Open Data from NHS Scotland
 
 <!-- badges: start -->
 
