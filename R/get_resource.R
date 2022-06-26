@@ -41,7 +41,7 @@
 #' @export
 get_resource <- function(package, resource = NULL,  limit = Inf) {
   
-  stopifnot("a package id must be specified." = hasArg(package))
+  stopifnot("a package id must be specified." = methods::hasArg(package))
   
   stopifnot("argument only accepts 1 package id." = length(package) == 1)
   

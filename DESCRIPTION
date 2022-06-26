@@ -13,9 +13,10 @@ Depends:
 Imports:
     glue,
     httr,
-    jsonlite,
     utils,
-    data.table
+    data.table,
+    methods,
+    jsonlite
 Suggests: 
     knitr,
     rmarkdown,
