@@ -61,13 +61,11 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL) {
 
   out <- lapply(res$result$records, function(x) as.list(sapply(x, function(y) ifelse(is.null(y), NA, y))))
   
-  out <- data.table::rbindlist(out, use.names = TRUE, fill = TRUE)
+  out <- as.data.frame(data.table::rbindlist(out, use.names = TRUE, fill = TRUE))
   
   if (!use_nosql) out = utils::type.convert(out, as.is = TRUE)
 
-  rm_col <- -which(names(out) %in% c("full_text", "id"))
-
-  if (length(rm_col) > 0) out <- out[ , rm_col]
+  if (any(names(out) %in% c("_full_text", "_id"))) out <- out[ , !names(out) %in% c("_full_text", "_id")]
   
   data.table::setcolorder(out, meta[meta %in% names(out)])
 

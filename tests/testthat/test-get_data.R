@@ -16,9 +16,8 @@ testthat::test_that('no errors and successful run', {
       limit = 10,
       where = "\"Product\" = \'Total\'"
     )),
-    "03e7d768147846f6d9aebfe3e27a5fe8")
+    "ca3ac427b0c7e1054620c8367c0bacba")
 })
-
 
 testthat::test_that("error when non-valid field value supplied to 'fields'", {
   
@@ -38,7 +37,6 @@ testthat::test_that("error when non-valid field value supplied to 'fields'", {
       where = "\"Product\" = \'Total\'"
     ))
 })
-
 
 testthat::test_that("use no sql method then limit within 1:99999 and 'where' is NULL", {
   
