@@ -1,6 +1,6 @@
-#' Lists 'packages' available from opendata.nhs.scot.
+#' Lists packages available from opendata.nhs.scot.
 #' 
-#' @description Lists all 'packages' available from opendata.nhs.scot as a
+#' @description Lists all packages available from opendata.nhs.scot as a
 #'  character vector, with the option to limit results based on a regular
 #'  expression.
 #'  

@@ -39,7 +39,7 @@
 #' }
 #'  
 #' @export
-get_dataset <- function(package, resource = NULL,  limit = Inf) {
+get_resource <- function(package, resource = NULL,  limit = Inf) {
   
   stopifnot("argument only accepts 1 package id." = length(package) == 1)
   

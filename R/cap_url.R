@@ -1,6 +1,6 @@
-#' Produces error if provided input exceeds 2000 characters.
+#' Produces error if input exceeds 2000 characters.
 #' 
-#' @description Used to ensure constructed URLs do not exceed 2000 caharacters.
+#' @description Used to ensure constructed URLs do not exceed 2000 characters.
 #' 
 #' @param x a character string to check.
 #' 

@@ -7,9 +7,7 @@
 
 <!-- badges: end -->
 
-A package for exploring and obtaining data available through the [Scottish Health and Social Care Open Data platform](https://www.opendata.nhs.scot/). The package interacts with the underlying [CKAN](https://ckan.org) API and simplifies the process of accessing the available data with R.
-
-`odns` allows users to quickly explore the available data and start using it without having to write complex queries.
+`odns` provides a base for exploring and obtaining data available through the [Scottish Health and Social Care Open Data platform](https://www.opendata.nhs.scot/). The package provides a wrapper for the underlying [CKAN](https://ckan.org) API and simplifies the process of accessing the available data with R, allowing users to quickly explore the available data and start using it without having to write complex queries.
 
 ## Installation
 
@@ -19,13 +17,13 @@ Install `odns` from GitHub;
 devtools::install_github("https://github.com/jrh-dev/odns")
 ```
 
-Or, install from source:
+Or, alternatively install from a manual download:
 
-1.  Click the 'Code' button at the top of the repository and choose 'Download ZIP' from the drop-down menu.
+1.  Click the 'Code' button at the top of the `odns` repository and choose 'Download ZIP' from the drop-down menu.
 
 2.  Unzip the downloaded file.
 
-3.  Install;
+3.  Install using the `install.packages()` function;
 
 ```
 install.packages("<path/to/file>", repos = NULL, type = "source")
@@ -33,19 +31,39 @@ install.packages("<path/to/file>", repos = NULL, type = "source")
 
 ## Usage
 
+### Language of CKAN
+CKAN and by extension this package refers to *packages* and *resources*. 
+
+The term *package* refers to a dataset, a collection of *resources*. A *resource*, holds the data itself.
+
+Example of structure;
+
+```
+.
+├── package_1
+│   ├── resource_1
+│   ├── resource_2
+│   └── resource_3
+|
+└── package_2
+    ├── resource_1
+    └─── resource_2
+...
+```
+
 ### Exploring the available data
 
-To view the packages available;
+To view all the packages available;
 
 ```
 all_packages()
   
-#  [1] "18-weeks-referral-to-treatment"                                                             
-#  [2] "27-30-month-review-statistics"                                                              
-#  [3] "alcohol-related-hospital-statistics-scotland"                                               
-#  [4] "allied-health-professionals-musculoskeletal-waiting-times"                                  
+#  [1] "18-weeks-referral-to-treatment"                                                
+#  [2] "27-30-month-review-statistics"                                                
+#  [3] "alcohol-related-hospital-statistics-scotland"
+#  [4] "allied-health-professionals-musculoskeletal-waiting-times"
 #  [5] "allied-health-professional-vacancies"
-#  ...
+#   ...
 ```
 
 Or, to search for packages whose names contain a certain string;
@@ -60,6 +78,27 @@ all_packages(contains = "population")
 To view details of the available resources;
 
 ```
+# view all available resources
+all_resources()
+
+#                                     name
+#  1 Monthly 18 Weeks RTT by Health Boards
+#  2               Review by Council Areas
+#                      package_name
+#  1 18-weeks-referral-to-treatment
+#  2  27-30-month-review-statistics
+#                                      id
+#  1 f2598c24-bf00-4171-b7ef-a469bbacbf6c
+#  2 018ba0e1-6562-43bb-82c5-97b6c6cc22d8
+#                              package_id
+#  1 aa8b22e8-8a02-484d-a6c8-0a0154a6249d
+#  2 f4ee46d4-cda9-4180-b6be-0f0e45ee3c8c
+#                 last_modified
+#  1 2022-05-31T08:39:46.135064
+#  2 2022-04-26T09:06:47.063012
+#   ...
+
+
 # view all resources under packages whose names contain "population"
 all_resources(package_contains = "population")
 
@@ -77,14 +116,46 @@ all_resources(package_contains = "population")
 # 2 2022-02-07T11:13:52.195764
 
 # view all resources, regardless of containing package, whose names contain "European"
-all_resources(resource_contains = "European")
+all_resources(resource_contains = "european")
 
-# view all resources under packages whose names contain "population" and where the package name contains contain "European"
+#                                   name
+#  1        European Standard Population
+#  2 European Standard Population by Sex
+#            package_name
+#  1 standard-populations
+#  2 standard-populations
+#                                      id
+#  1 edee9731-daf7-4e0d-b525-e4c1469b8f69
+#  2 29ce4cda-a831-40f4-af24-636196e05c1a
+#                              package_id
+#  1 4dd86111-7326-48c4-8763-8cc4aa190c3e
+#  2 4dd86111-7326-48c4-8763-8cc4aa190c3e
+#                 last_modified
+#  1 2018-04-05T14:42:35.785110
+#  2 2018-04-05T14:45:36.996054
+
+# view all resources under packages whose names contain "population" and where the package name contains contain "european"
 all_resources(package_contains = "population", resource_contains = "european")
+
+#                                   name
+#  1        European Standard Population
+#  2 European Standard Population by Sex
+#            package_name
+#  1 standard-populations
+#  2 standard-populations
+#                                      id
+#  1 edee9731-daf7-4e0d-b525-e4c1469b8f69
+#  2 29ce4cda-a831-40f4-af24-636196e05c1a
+#                              package_id
+#  1 4dd86111-7326-48c4-8763-8cc4aa190c3e
+#  2 4dd86111-7326-48c4-8763-8cc4aa190c3e
+#                 last_modified
+#  1 2018-04-05T14:42:35.785110
+#  2 2018-04-05T14:45:36.996054
 
 ```
 
-When search terms are used, they are case insensitive.
+In the examples above the search strings are case insensitive.
 
 ### Viewing package and resource metadata
 
@@ -125,7 +196,7 @@ get_dataset(
    )
 ```
 
-It is also possible to utilise the underlying CKAN API to extract more specific subsets of the full resources available.
+The `get_data()` function can be used to exact more control over the data returned.
 
 ```
 # import specified fields from a data set
@@ -133,7 +204,10 @@ get_data(
    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
    fields = c("AgeGroup", "EuropeanStandardPopulation")
  )
+```
 
+The `where` argument of `get_data()` can be used to extract more specific subsets of the full resources available by passing the "WHERE" element of a SQL style query.
+```
 # import specified fields from a data set utilising a SQL style where query
 get_data(
    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
@@ -144,4 +218,4 @@ get_data(
  
 #### Correct formatting for SQL
  
-The option provided by the `get_data()` function to specify a `where` argument requires specific formatting for compatibility with the CKAN API. Field names must be double quoted `"`, non-numeric values must be single quoted `"`, and both single and double quotes must be delimited. Example; `where = "\"AgeGroup\" = \'45-49 years\\'"`.
+The option provided by the `get_data()` function to specify a `where` argument requires specific formatting for compatibility with the CKAN API. Field names must be double quoted `"`, non-numeric values must be single quoted `'`, and both single and double quotes must be delimited. Example; `where = "\"AgeGroup\" = \'45-49 years\\'"`.
