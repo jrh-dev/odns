@@ -10,15 +10,14 @@ testthat::test_that('no errors and successful run', {
                 function(...) res_get_data)
   
   testthat::expect_equal(
-  digest::digest(get_data(
-    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
-    fields = c("Product", "Dose", "CumulativeNumberVaccinated"),
-    limit = 10,
-    where = "\"Product\" = \'Total\'"
-  )),
-  "371b4617421888aeb3e6171b1f39bc84")
+    digest::digest(get_data(
+      resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
+      fields = c("Product", "Dose", "CumulativeNumberVaccinated"),
+      limit = 10,
+      where = "\"Product\" = \'Total\'"
+    )),
+    "03e7d768147846f6d9aebfe3e27a5fe8")
 })
-
 
 
 testthat::test_that("error when non-valid field value supplied to 'fields'", {
@@ -33,7 +32,7 @@ testthat::test_that("error when non-valid field value supplied to 'fields'", {
   
   testthat::expect_error(
     get_data(
-      resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+      resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
       fields = c("Product", "Doses", "CumulativeNumberVaccinated"),
       limit = 10,
       where = "\"Product\" = \'Total\'"
@@ -48,15 +47,12 @@ testthat::test_that("use no sql method then limit within 1:99999 and 'where' is 
   mockery::stub(get_data, 'prep_sql_query', 
                 function(...) stop("unexpected query builder used"))
   
-  testthat::expect_error(
-    tmp <- get_data(
-      resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-      fields = c("Dose"),
-      limit = 1,
-      where = NULL
-    ), NA)
-  
-  testthat::expect_equal(names(tmp), "Dose")
+  testthat::expect_equal(names(get_data(
+    resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
+    fields = c("Dose"),
+    limit = 1,
+    where = NULL
+  )), "Dose")
 })
 
 testthat::test_that("use sql method then limit within 1:99999 and 'where' is NULL", {
@@ -66,16 +62,12 @@ testthat::test_that("use sql method then limit within 1:99999 and 'where' is NUL
   mockery::stub(get_data, 'prep_nosql_query', 
                 function(...) stop("unexpected query builder used"))
   
-  testthat::expect_error(
-    tmp <- get_data(
-      resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-      fields = c("Dose"),
-      limit = 100000,
-      where = NULL
-    ), NA)
-  
-  testthat::expect_equal(names(tmp), "Dose")  
-  
+  testthat::expect_equal(names(get_data(
+    resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
+    fields = c("Dose"),
+    limit = 100000,
+    where = NULL
+  )), "Dose") 
 })
 
 testthat::test_that("use sql method then limit within 1:99999 and 'where' is not NULL", {
