@@ -15,9 +15,7 @@ included in the returned table. The input is checked to ensure the specified
 fields exist in the chosen resource.}
 
 \item{limit}{An integer specifying the maximum number of records to be
-returned, the default NULL value returns all records. Note that specifying a
-limit > 99,999 or no limit forces the use of SQL, which carries a small
-performance penalty.}
+returned, the default NULL value returns all records.}
 
 \item{where}{A character string containing the 'WHERE' element of a simple
 SQL SELECT style query. Field names must be double quoted (\code{"}),
@@ -32,7 +30,7 @@ A data.frame.
 Get data from a resource in tabular format with the option to
 select fields and perform basic filtering. Where multiple data sets are
 required from a package and/or no field selection and filtering is required
-the \code{get_datasets} function can be used.
+the \code{get_resource} function can be used.
 }
 \examples{
 \dontrun{

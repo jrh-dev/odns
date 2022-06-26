@@ -2,7 +2,7 @@
 % Please edit documentation in R/cap_url.R
 \name{cap_url}
 \alias{cap_url}
-\title{Produces error if provided input exceeds 2000 characters.}
+\title{Produces error if input exceeds 2000 characters.}
 \usage{
 cap_url(x)
 }
@@ -13,5 +13,5 @@ cap_url(x)
 invisible.
 }
 \description{
-Used to ensure constructed URLs do not exceed 2000 caharacters.
+Used to ensure constructed URLs do not exceed 2000 characters.
 }

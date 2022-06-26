@@ -47,8 +47,7 @@ Example of structure;
 |
 └── package_2
     ├── resource_1
-    └─── resource_2
-...
+    └── resource_2
 ```
 
 ### Exploring the available data

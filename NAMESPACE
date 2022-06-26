@@ -3,6 +3,6 @@
 export(all_packages)
 export(all_resources)
 export(get_data)
-export(get_dataset)
+export(get_resource)
 export(package_metadata)
 export(resource_metadata)
