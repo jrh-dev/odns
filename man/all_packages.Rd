@@ -2,7 +2,7 @@
 % Please edit documentation in R/all_packages.R
 \name{all_packages}
 \alias{all_packages}
-\title{Lists packages available from opendata.nhs.scot.}
+\title{Lists packages available from <opendata.nhs.scot>.}
 \usage{
 all_packages(contains = NULL)
 }
@@ -16,7 +16,7 @@ a character vector containing the names of all available packages,
 or those containing the string specified in the \code{contains} argument.
 }
 \description{
-Lists all packages available from opendata.nhs.scot as a
+Lists all packages available from <opendata.nhs.scot> as a
 character vector, with the option to limit results based on a regular
 expression.
 }

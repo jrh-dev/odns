@@ -2,7 +2,7 @@
 % Please edit documentation in R/all_resources.R
 \name{all_resources}
 \alias{all_resources}
-\title{Provides an overview of all resources available from opendata.nhs.scot.}
+\title{Provides an overview of all resources available from <opendata.nhs.scot>.}
 \usage{
 all_resources(package_contains = NULL, resource_contains = NULL)
 }
@@ -22,7 +22,7 @@ resources, or those containing the string specified in the
 }
 \description{
 Provides an overview of all resources available from
-opendata.nhs.scot, with the option to limit results based on both package
+<opendata.nhs.scot>, with the option to limit results based on both package
 and resource names. The returned data.frame can be used to look-up package
 and resource ids and is useful for exploring the available data sets.
 }

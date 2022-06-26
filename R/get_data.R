@@ -13,10 +13,10 @@
 #' @param limit An integer specifying the maximum number of records to be
 #'  returned, the default NULL value returns all records.
 #' @param where A character string containing the 'WHERE' element of a simple
-#'  SQL SELECT style query. Field names must be double quoted (\code{"}),
-#'  non-numeric values must be single quoted (\code{"}), and both single and
+#'  SQL SELECT style query. Field names must be double quoted ",
+#'  non-numeric values must be single quoted ', and both single and
 #'  double quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
-#'  \'45-49 years\\'"}.
+#'  \'45-49 years\'"}.
 #'
 #' @return A data.frame.
 #'
