@@ -2,7 +2,8 @@
 
 <!-- badges: start -->
 
-<a href="https://www.repostatus.org/#wip"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."/></a> [![R-CMD-check](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml)
+<a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
+[![R-CMD-check](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml)
 [![test-coverage](https://github.com/jrh-dev/odns/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/jrh-dev/odns/actions/workflows/test-coverage.yaml)
 
 <!-- badges: end -->
@@ -10,23 +11,15 @@
 `odns` provides a base for exploring and obtaining data available through the [Scottish Health and Social Care Open Data platform](https://www.opendata.nhs.scot/). The package provides a wrapper for the underlying [CKAN](https://ckan.org) API and simplifies the process of accessing the available data with R, allowing users to quickly explore the available data and start using it without having to write complex queries.
 
 ## Installation
+Install `odns` from CRAN;
+```
+install.packages("odns")
+```
 
 Install `odns` from GitHub;
 
 ```
 devtools::install_github("https://github.com/jrh-dev/odns")
-```
-
-Or, alternatively install from a manual download:
-
-1.  Click the 'Code' button at the top of the `odns` repository and choose 'Download ZIP' from the drop-down menu.
-
-2.  Unzip the downloaded file.
-
-3.  Install using the `install.packages()` function;
-
-```
-install.packages("<path/to/file>", repos = NULL, type = "source")
 ```
 
 ## Usage
