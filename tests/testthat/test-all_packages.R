@@ -7,7 +7,7 @@ testthat::test_that('no errors and successful return of all packages', {
   
   testthat::expect_equal(
     digest::digest(all_packages()),
-    "09b729d9e882565eb6a79c21c36917d5"
+    "48cb1de7695131e5858fc806dcf60d39"
   )
 })
 
@@ -25,14 +25,14 @@ testthat::test_that("error when request fails", {
 
 testthat::test_that('filter functionality works', {
   
-  load(testthat::test_path("test_data", "pck_list_res.rda"))
+  load(testthat::test_path("test_data", "pck_list_res_filt.rda"))
   
   mockery::stub(all_packages, 'httr::GET', 
-                function(...) pck_list_res)
+                function(...) pck_list_res_filt)
   
   testthat::expect_equal(
     digest::digest(all_packages(contains = "standard-populations")),
-    "0e676fec7cadbd3a48bd723cf815a19c"
+    "2403954ac06d1566ff4606b1f7c450ac"
   )
 })
 

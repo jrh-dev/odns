@@ -1,15 +1,17 @@
-#' Lists packages available from <opendata.nhs.scot>.
+#' Details packages available from <opendata.nhs.scot>.
 #' 
-#' @description Lists all packages available from <opendata.nhs.scot> as a
-#'  character vector, with the option to limit results based on a regular
-#'  expression.
+#' @description Details all packages available from <opendata.nhs.scot> in a
+#'  data.frame along with the package id, with the option to limit results based
+#'  on a search term.
 #'  
-#' @param contains a character string containing a regular expression to be 
-#'  matched against a vector of available package names. If a character vector >
-#'  length 1 is supplied, the first element is used.
+#' @param contains a character string containing an expression to be used as
+#'  search criteria against the packages 'title' field.
+#' @param limit a numeric value specifying the maximum number of rows to be
+#' returned. Defaults to 1000L.
 #' 
-#' @return a character vector containing the names of all available packages,
-#'  or those containing the string specified in the \code{contains} argument.
+#' @return a data.frame containing the names of all available packages and their
+#'  package ids, or those whose name contains the string specified in the 
+#'  \code{contains} argument.
 #'  
 #' @examples
 #' \dontrun{
@@ -18,17 +20,22 @@
 #' }
 #' 
 #' @export
-all_packages <- function(contains = NULL) {
+all_packages <- function(contains = NULL, limit = 1000L) {
   
-  res <- httr::GET("https://www.opendata.nhs.scot/api/3/action/package_list")
+  query = utils::URLencode(glue::glue(
+      "https://www.opendata.nhs.scot/api/3/action/",
+      "package_search?",
+      "{if (is.null(contains)) \"\" else glue::glue(\"q=title:{contains}&\")}",
+      "rows={limit}"
+    ))
+  
+  res <- httr::GET(query)
   
   httr::stop_for_status(res)
   
-  pac <- unlist(httr::content(res)$result)
+  out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   
-  if (!is.null(contains)) {
-    pac <- pac[grepl(as.character(contains), pac, ignore.case = TRUE)]
-  }
+  out <- data.frame(package_name=unlist(out$name), package_id = unlist(out$id))
   
-  return(pac)
+  return(out)
 }
