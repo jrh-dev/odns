@@ -37,6 +37,8 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
     "rows={32000}"
   ))
   
+  cap_url(query)
+  
   res <- httr::GET(query)
   
   httr::stop_for_status(res)
@@ -56,16 +58,15 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
     resource_id = unlist(out$id),
     package_name = unname(pkgs[unlist(out$package_id)]),
     package_id = unlist(out$package_id),
+    url = unlist(out$url),
     last_modified = unlist(out$last_modified)
   )
   
   if (!is.null(resource_contains)) {
     out <- out[grepl(as.character(resource_contains), out$resource_name, ignore.case = TRUE),] 
-    if (nrow(out) == 0) warning(glue::glue(
-      "A 0 row data.frame was returned using arguments;\n",
-      "package_contains = \"{package_contains}\".\n",
-      "resource_contains = \"{resource_contains}\"."
-    ))
+    if (nrow(out) == 0)  warning(
+      "No resources found for arguments provided. Returning empty data.frame."
+      )
   }
   
   return(out)

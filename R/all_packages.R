@@ -29,6 +29,8 @@ all_packages <- function(contains = NULL, limit = 1000L) {
       "rows={limit}"
     ))
   
+  cap_url(query)
+  
   res <- httr::GET(query)
   
   httr::stop_for_status(res)
