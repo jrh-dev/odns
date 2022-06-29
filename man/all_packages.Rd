@@ -2,23 +2,26 @@
 % Please edit documentation in R/all_packages.R
 \name{all_packages}
 \alias{all_packages}
-\title{Lists packages available from <opendata.nhs.scot>.}
+\title{Details packages available from <opendata.nhs.scot>.}
 \usage{
-all_packages(contains = NULL)
+all_packages(contains = NULL, limit = 1000L)
 }
 \arguments{
-\item{contains}{a character string containing a regular expression to be
-matched against a vector of available package names. If a character vector >
-length 1 is supplied, the first element is used.}
+\item{contains}{a character string containing an expression to be used as
+search criteria against the packages 'title' field.}
+
+\item{limit}{a numeric value specifying the maximum number of rows to be
+returned. Defaults to 1000L.}
 }
 \value{
-a character vector containing the names of all available packages,
-or those containing the string specified in the \code{contains} argument.
+a data.frame containing the names of all available packages and their
+package ids, or those whose name contains the string specified in the
+\code{contains} argument.
 }
 \description{
-Lists all packages available from <opendata.nhs.scot> as a
-character vector, with the option to limit results based on a regular
-expression.
+Details all packages available from <opendata.nhs.scot> in a
+data.frame along with the package id, with the option to limit results based
+on a search term.
 }
 \examples{
 \dontrun{

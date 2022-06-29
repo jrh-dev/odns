@@ -4,17 +4,17 @@
 \alias{get_resource}
 \title{Get selected resources or all resources within a package.}
 \usage{
-get_resource(package, resource = NULL, limit = Inf)
+get_resource(package = NULL, resource = NULL, limit = Inf)
 }
 \arguments{
-\item{package}{A character of length 1 specifying a package id or name which
-identifies the package for which all resources should be returned or
-containing the resource/s identified in the resource argument. Only one
-package may be specified.}
+\item{package}{A character vector specifying package ids or names. If the
+\code{resource} argument is not provided all resources under each of the
+specified packages will be returned.}
 
-\item{resource}{Optionally, a character vector specifying resource id/s of
-the data set/s to be returned. Multiple resources within the same package
-can be specified.}
+\item{resource}{A character vector specifying resource ids or names. If the
+\code{resource} argument is provided then resources will only be returned if
+they exist under one of the specified packages, otherwise each of the
+specified resources will be returned.}
 
 \item{limit}{A numeric value specifying the maximum number of rows to be
 returned. Default value \code{Inf} returns all rows.}
@@ -26,8 +26,8 @@ specified, as data.frames.
 \description{
 Get data from one or more resources, or all resources within a
 package, as a list, with each resource in tabular format. Where field
-selection and/or filtering of data is required the
-\code{get_data} function can be used.
+selection and/or filtering of data is required the \code{get_data} function
+can be used.
 }
 \examples{
 \dontrun{
@@ -44,7 +44,7 @@ get_resource(
 
 get_resource(
   package = "standard-populations",
-  resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+  resource = "European Standard Population",
   limit = 5L
   )
 }

@@ -7,7 +7,7 @@ testthat::test_that('no errors and successful return of all packages', {
   
   testthat::expect_equal(
     digest::digest(all_packages()),
-    "48cb1de7695131e5858fc806dcf60d39"
+    "c298493c38a4916f9e76a7655a2e52df"
   )
 })
 
@@ -32,7 +32,7 @@ testthat::test_that('filter functionality works', {
   
   testthat::expect_equal(
     digest::digest(all_packages(contains = "standard-populations")),
-    "2403954ac06d1566ff4606b1f7c450ac"
+    "7a1c038182bbce1efc68a7f680774624"
   )
 })
 
