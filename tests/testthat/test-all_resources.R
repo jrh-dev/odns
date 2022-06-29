@@ -10,7 +10,7 @@ testthat::test_that('no errors and successful run', {
       package_contains = "standard-populations",
       resource_contains = "European"
     )),
-    "b8635f356b6b792c5123eb594bbb737c")
+    "9704cf3a6290f115ddfc3aeb364c9146")
 })
 
 testthat::test_that('WARNING when arguments leads to 0 row data.frame', {
