@@ -3,8 +3,10 @@
 <!-- badges: start -->
 
 <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." /></a>
+[![CRAN status](https://cranchecks.info/badges/flavor/release/odns)](https://cran.r-project.org/web/checks/check_results_odns.html)
 [![R-CMD-check](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml)
 [![test-coverage](https://github.com/jrh-dev/odns/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/jrh-dev/odns/actions/workflows/test-coverage.yaml)
+[![downloads](https://cranlogs.r-pkg.org/badges/odns)](https://www.rdocumentation.org/trends)
 
 <!-- badges: end -->
 
