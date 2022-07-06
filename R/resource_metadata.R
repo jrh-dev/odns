@@ -24,7 +24,7 @@ resource_metadata <- function(resource) {
   
   res = httr::GET(query)
   
-  httr::stop_for_status(res)
+  detect_error(res)
   
   cont = httr::content(res)
   

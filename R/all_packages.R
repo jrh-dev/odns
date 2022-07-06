@@ -33,7 +33,7 @@ all_packages <- function(contains = NULL, limit = 1000L) {
   
   res <- httr::GET(query)
   
-  httr::stop_for_status(res)
+  detect_error(res)
   
   out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   

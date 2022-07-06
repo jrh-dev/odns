@@ -78,7 +78,7 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
     
     res <- httr::GET(query)
     
-    httr::stop_for_status(res)
+    detect_error(res)
     
     catch[[page]] <- httr::content(res)
     

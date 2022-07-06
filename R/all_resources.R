@@ -41,7 +41,7 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
   
   res <- httr::GET(query)
   
-  httr::stop_for_status(res)
+  detect_error(res)
   
   out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   
