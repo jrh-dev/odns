@@ -61,7 +61,7 @@ get_resource <- function(package = NULL, resource = NULL,  limit = Inf) {
       urls = rsrc$url,
       pckg_not_found = list("packages", x),
       rsrc_not_found = list("resources", y)
-      )
+    )
     
     return(rsrc)
   })()
@@ -75,18 +75,19 @@ get_resource <- function(package = NULL, resource = NULL,  limit = Inf) {
     out <- lapply(res$urls, data.table::fread, keepLeadingZeros = TRUE, 
                   data.table = FALSE, nrows = limit, showProgress = FALSE)
     
+    for (ii in list(res$pckg_not_found, res$rsrc_not_found)){
+      
+      if (length(ii[[2]]) > 0) {
+        message(glue::glue("The following {ii[[1]]} were not found;\n"))
+        message(glue::glue("{ii[[2]]} \n\n"))
+      }
+    }
+    
   } else {
     
     warning("No resources found for arguments provided. Returning empty list.")
+    out <- list()
     
-  }
-  
-  for (ii in list(res$pckg_not_found, res$rsrc_not_found)){
-    
-    if (length(ii[[2]]) > 0) {
-            message(glue::glue("The following {ii[[1]]} were not found;\n"))
-            message(glue::glue("{ii[[2]]} \n\n"))
-    }
   }
   
   return(out)
