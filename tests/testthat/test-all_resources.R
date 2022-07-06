@@ -26,3 +26,13 @@ testthat::test_that('WARNING when arguments leads to 0 row data.frame', {
     ))
 })
 
+testthat::test_that('live query returns no errors and successful run', {
+  
+  testthat::skip_on_cran()
+  
+  testthat::expect_true(
+    is.data.frame(all_resources(
+      package_contains = "standard-populations",
+      resource_contains = "European"
+    )))
+})

@@ -4,7 +4,7 @@
 \alias{get_data}
 \title{Get data from a resource.}
 \usage{
-get_data(resource, fields = NULL, limit = NULL, where = NULL)
+get_data(resource, fields = NULL, limit = NULL, where = NULL, page_size = NULL)
 }
 \arguments{
 \item{resource}{A character string containing the resource id of the data set
@@ -22,6 +22,12 @@ SQL SELECT style query. Field names must be double quoted ",
 non-numeric values must be single quoted ', and both single and
 double quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
  \'45-49 years\'"}.}
+
+\item{page_size}{An integer specifying the maximum number of records to be
+returned per query. Setting a value causes the use of offset pagination,
+multiple queries will be sent to return subsets of the available data.
+Subsets are joined before being returned. The default NULL value will always
+attempt to return all rows with a single query.}
 }
 \value{
 A data.frame.
@@ -34,10 +40,11 @@ the \code{get_resource} function can be used.
 }
 \examples{
 \dontrun{
+get_data(resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69")
+
 get_data(
   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
   fields = c("AgeGroup", "EuropeanStandardPopulation"),
-  limit = 5L,
   where = "\"AgeGroup\" = \'45-49 years\'"
 )
 }

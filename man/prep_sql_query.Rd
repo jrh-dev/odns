@@ -4,7 +4,7 @@
 \alias{prep_sql_query}
 \title{Prepare an API query with SQL.}
 \usage{
-prep_sql_query(resource, fields, limit, where)
+prep_sql_query(resource, fields, limit, offset, where)
 }
 \arguments{
 \item{resource}{a character string specifying resource id of the data set
@@ -15,6 +15,8 @@ included in the returned data.}
 
 \item{limit}{A numeric value specifying the maximum number of rows to be
 returned.}
+
+\item{offset}{A numeric value specifying the number of rows to skip.}
 
 \item{where}{A character string containing the 'WHERE' element of a simple
 SQL SELECT style query. Field names must be double quoted (\code{"}), non

@@ -152,3 +152,13 @@ testthat::test_that('specifying only a resource works', {
   )
 })
 
+
+testthat::test_that('empty list when package not found', {
+  
+  testthat::skip_on_cran()
+  
+  testthat::expect_equal(
+    suppressWarnings(get_resource(package = "a_nonsense_value", limit = 1L)),
+    list()
+  )
+})

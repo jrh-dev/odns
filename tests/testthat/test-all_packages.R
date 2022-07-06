@@ -36,3 +36,11 @@ testthat::test_that('filter functionality works', {
   )
 })
 
+testthat::test_that('live query works', {
+  
+  testthat::skip_on_cran()
+  
+  testthat::expect_true(
+    is.data.frame(all_packages(contains = "standard-populations"))
+  )
+})
