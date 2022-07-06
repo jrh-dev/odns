@@ -5,9 +5,8 @@
 #'  and resource names. The returned data.frame can be used to look-up package
 #'  and resource ids and is useful for exploring the available data sets.
 #'  
-#' @param package_contains a character string containing a regular expression to
-#'  be matched against available package names. If a character vector > length 1
-#'  is supplied, the first element is used.
+#' @param package_contains  a character string containing an expression to be 
+#'  used as search criteria against the packages 'title' field.
 #' @param resource_contains a character string containing a regular expression
 #'  to be matched against available resource names. If a character vector > 
 #'  length 1 is supplied, the first element is used.
@@ -28,44 +27,47 @@
 #' @export
 all_resources <- function(package_contains = NULL, resource_contains = NULL) {
   
-  pac <- all_packages(contains = package_contains)
+  stopifnot(is.null(package_contains) || length(package_contains)== 1)
+  stopifnot(is.null(resource_contains) || length(resource_contains)== 1)
   
-  if (length(pac) < 1) {
-    
-    stop(glue::glue("No packages found with \"{package_contains}\" in name."))
-    
-  } else {
-    
-    catch <-  vector(mode = "list", length = length(pac))
-    
-    for (ii in seq_len(length(catch))) {
-      
-      catch[[ii]] <- package_metadata(pac[ii])$resources
-      
-      catch[[ii]]$package_name <- pac[ii]
-      
-      catch[[ii]] <- catch[[ii]][c("name", "package_name", "id", "package_id", "last_modified")]
-      
-    }
-    
-    catch = do.call(rbind, catch)
-    
-    if (!is.null(resource_contains)) {
-      catch <- catch[grepl(as.character(resource_contains), catch$name, ignore.case = TRUE),]
-      
-      if (nrow(catch) < 1) {
-        
-        catch <- NULL
-        
-        stop(glue::glue("No resources found with \"{resource_contains}\" in name."))
-        
-      } else {
-        
-        rownames(catch) <- NULL
-        
-      }
-    }
+  query = utils::URLencode(glue::glue(
+    "https://www.opendata.nhs.scot/api/3/action/",
+    "package_search?",
+    "{if (is.null(package_contains)) \"\" else glue::glue(\"q=title:{package_contains}&\")}",
+    "rows={32000}"
+  ))
+  
+  cap_url(query)
+  
+  res <- httr::GET(query)
+  
+  detect_error(res)
+  
+  out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
+  
+  pkgs <- unlist(out$name)
+  
+  names(pkgs) <- unlist(out$id)
+  
+  out <- jsonlite::fromJSON(jsonlite::toJSON(out$resources), flatten = TRUE)
+  
+  out <- data.table::rbindlist(out, use.names = TRUE, fill = TRUE)
+  
+  out <- data.frame(
+    resource_name = unlist(out$name),
+    resource_id = unlist(out$id),
+    package_name = unname(pkgs[unlist(out$package_id)]),
+    package_id = unlist(out$package_id),
+    url = unlist(out$url),
+    last_modified = unlist(out$last_modified)
+  )
+  
+  if (!is.null(resource_contains)) {
+    out <- out[grepl(as.character(resource_contains), out$resource_name, ignore.case = TRUE),] 
+    if (nrow(out) == 0)  warning(
+      "No resources found for arguments provided. Returning empty data.frame."
+      )
   }
   
-  return(catch)
+  return(out)
 }

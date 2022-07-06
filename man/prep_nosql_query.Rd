@@ -4,7 +4,7 @@
 \alias{prep_nosql_query}
 \title{Prepare an API query without SQL.}
 \usage{
-prep_nosql_query(resource, fields, limit)
+prep_nosql_query(resource, fields, limit, offset)
 }
 \arguments{
 \item{resource}{A character string specifying resource id of the data set
@@ -15,6 +15,8 @@ included in the returned data.}
 
 \item{limit}{A numeric value specifying the maximum number of rows to be
 returned.}
+
+\item{offset}{A numeric value specifying the number of rows to skip.}
 }
 \value{
 A character string containing the prepared query.

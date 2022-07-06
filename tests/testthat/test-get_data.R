@@ -1,87 +1,151 @@
 
-testthat::test_that('no errors and successful run', {
+testthat::test_that('live query correctly returns data.frame', {
   
-  load(testthat::test_path("test_data", "res_get_data.rda"))
+  testthat::skip_on_cran()
   
-  mockery::stub(get_data, 'resource_metadata', 
-                function(...) list(id=c("Product", "Dose", "CumulativeNumberVaccinated")))
+  testthat::expect_true(is.data.frame(
+    get_data(
+      resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+      fields = NULL,
+      limit = NULL,
+      where = NULL,
+      page_size = NULL
+    )
+  ))
+})
+
+
+testthat::test_that('correct result returned using dummy httr::GET result', {
   
-  mockery::stub(get_data, 'httr::GET', 
-                function(...) res_get_data)
+  load(testthat::test_path("test_data", "get_data_test_1.rda"))
+  
+  mockery::stub(get_data, 'httr::GET', function(...) get_data_test_1)
   
   testthat::expect_equal(
     digest::digest(get_data(
-      resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-      fields = c("Product", "Dose", "CumulativeNumberVaccinated"),
-      limit = 10,
-      where = "\"Product\" = \'Total\'"
+      resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+      fields = NULL,
+      limit = NULL,
+      where = NULL,
+      page_size = NULL
     )),
-    "ca3ac427b0c7e1054620c8367c0bacba")
+    "5e7759e534e5cce9cbab55a58790b01b"
+  )
 })
 
-testthat::test_that("error when non-valid field value supplied to 'fields'", {
+testthat::test_that('live query correctly returns data.frame', {
   
-  load(testthat::test_path("test_data", "res_get_data.rda"))
+  testthat::skip_on_cran()
   
-  mockery::stub(get_data, 'resource_metadata', 
-                function(...) list(id=c("Product", "Dose", "CumulativeNumberVaccinated")))
-  
-  mockery::stub(get_data, 'httr::POST', 
-                function(...) res_get_data)
-  
-  testthat::expect_error(
+  testthat::expect_true(is.data.frame(
     get_data(
-      resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-      fields = c("Product", "Doses", "CumulativeNumberVaccinated"),
-      limit = 10,
-      where = "\"Product\" = \'Total\'"
-    ))
+      resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+      fields = c("AgeGroup", "EuropeanStandardPopulation"),
+      limit = NULL,
+      where = NULL,
+      page_size = NULL
+    )
+  ))
 })
 
-testthat::test_that("use no sql method then limit within 1:99999 and 'where' is NULL", {
+testthat::test_that('correct result returned using dummy httr::GET result', {
+  
+  load(testthat::test_path("test_data", "get_data_test_2.rda"))
+  
+  mockery::stub(get_data, 'httr::GET', function(...) get_data_test_2)
+  
+  testthat::expect_equal(
+    digest::digest(get_data(
+      resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+      fields = c("AgeGroup", "EuropeanStandardPopulation"),
+      limit = NULL,
+      where = NULL,
+      page_size = NULL
+    )),
+    "dd273b00e893ffab9dbe617896528060"
+  )
+})
+
+testthat::test_that('correct result returned using dummy httr::GET result', {
+  
+  load(testthat::test_path("test_data", "get_data_test_3.rda"))
+  
+  mockery::stub(get_data, 'httr::GET', function(...) get_data_test_3)
+  
+  testthat::expect_equal(
+    digest::digest(get_data(
+      resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+      fields = c("AgeGroup", "EuropeanStandardPopulation"),
+      limit = NULL,
+      where = "\"AgeGroup\" = \'45-49 years\'",
+      page_size = NULL
+    )),
+    "feffce07ef5b56cd1047e1640a88c835"
+  )
+})
+
+testthat::test_that('using page size doesnt effect overall return', {
   
   testthat::skip_on_cran()
   
-  mockery::stub(get_data, 'prep_sql_query', 
-                function(...) stop("unexpected query builder used"))
+  t1 <- get_data(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+    fields = c("AgeGroup", "EuropeanStandardPopulation"),
+    limit = NULL,
+    where = NULL,
+    page_size = NULL
+  )
   
-  testthat::expect_equal(names(get_data(
-    resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-    fields = c("Dose"),
-    limit = 1,
-    where = NULL
-  )), "Dose")
+  t2 <- get_data(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+    fields = c("AgeGroup", "EuropeanStandardPopulation"),
+    limit = NULL,
+    where = NULL,
+    page_size = 6
+  )
+  
+  testthat::expect_equal(t1,t2)
 })
 
-testthat::test_that("use sql method then limit within 1:99999 and 'where' is NULL", {
+testthat::test_that('using page size with limit doesnt effect overall return', {
   
   testthat::skip_on_cran()
   
-  mockery::stub(get_data, 'prep_nosql_query', 
-                function(...) stop("unexpected query builder used"))
+  t1 <- get_data(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+    fields = c("AgeGroup", "EuropeanStandardPopulation"),
+    limit = 10,
+    where = NULL,
+    page_size = NULL
+  )
   
-  testthat::expect_equal(names(get_data(
-    resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-    fields = c("Dose"),
-    limit = 100000,
-    where = NULL
-  )), "Dose") 
+  t2 <- get_data(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+    fields = c("AgeGroup", "EuropeanStandardPopulation"),
+    limit = 10,
+    where = NULL,
+    page_size = 6
+  )
+  
+  testthat::expect_equal(t1,t2)
 })
 
-testthat::test_that("use sql method then limit within 1:99999 and 'where' is not NULL", {
+
+testthat::test_that('function return is same as full download', {
   
   testthat::skip_on_cran()
   
-  mockery::stub(get_data, 'prep_nosql_query', 
-                function(...) stop("unexpected query builder used"))
+  t1 <- get_data(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+    fields = c("AgeGroup", "EuropeanStandardPopulation"),
+    limit = NULL,
+    where = NULL,
+    page_size = NULL
+  )
   
-  testthat::expect_error(
-    tmp <- get_data(
-      resource = "42f17a3c-a4db-4965-ba68-3dffe6bca13a",
-      fields = c("Dose"),
-      limit = 1,
-      where = "\"Dose\" = \'Dose 1\'"
-    ), NA)
+  t2 <- get_resource(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69"
+  )[[1]]
   
-  testthat::expect_equal(names(tmp), "Dose")
+  testthat::expect_equal(t1,t2)
 })

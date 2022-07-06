@@ -7,9 +7,8 @@
 all_resources(package_contains = NULL, resource_contains = NULL)
 }
 \arguments{
-\item{package_contains}{a character string containing a regular expression to
-be matched against available package names. If a character vector > length 1
-is supplied, the first element is used.}
+\item{package_contains}{a character string containing an expression to be
+used as search criteria against the packages 'title' field.}
 
 \item{resource_contains}{a character string containing a regular expression
 to be matched against available resource names. If a character vector >

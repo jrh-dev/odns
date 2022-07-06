@@ -26,7 +26,7 @@ testthat::test_that('function returns a data.frame from live query', {
   testthat::skip_on_cran()
   
   testthat::expect_true(is.data.frame(
-    resource_metadata(resource="8f7b64b1-eb53-43e9-b888-45af0bc25505")
+    resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
     ))
 })
 

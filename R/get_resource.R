@@ -2,16 +2,16 @@
 #'
 #' @description Get data from one or more resources, or all resources within a 
 #'  package, as a list, with each resource in tabular format. Where field
-#'  selection and/or filtering of data is required the 
-#'  \code{get_data} function can be used.
+#'  selection and/or filtering of data is required the \code{get_data} function
+#'  can be used.
 #'
-#' @param package A character of length 1 specifying a package id or name which 
-#'  identifies the package for which all resources should be returned or 
-#'  containing the resource/s identified in the resource argument. Only one
-#'  package may be specified.
-#' @param resource Optionally, a character vector specifying resource id/s of
-#'  the data set/s to be returned. Multiple resources within the same package
-#'  can be specified.
+#' @param package A character vector specifying package ids or names. If the 
+#'  \code{resource} argument is not provided all resources under each of the
+#'  specified packages will be returned.
+#' @param resource A character vector specifying resource ids or names. If the 
+#'  \code{resource} argument is provided then resources will only be returned if
+#'  they exist under one of the specified packages, otherwise each of the
+#'  specified resources will be returned.
 #' @param limit A numeric value specifying the maximum number of rows to be
 #' returned. Default value `Inf` returns all rows.
 #' 
@@ -33,42 +33,62 @@
 #' 
 #' get_resource(
 #'   package = "standard-populations",
-#'   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+#'   resource = "European Standard Population",
 #'   limit = 5L
 #'   )
 #' }
 #'  
 #' @export
-get_resource <- function(package, resource = NULL,  limit = Inf) {
+get_resource <- function(package = NULL, resource = NULL,  limit = Inf) {
   
-  stopifnot("a package id must be specified." = methods::hasArg(package))
+  stopifnot("The package or resource argument must be specified." = !all(is.null(package), is.null(resource)))
   
-  stopifnot("argument only accepts 1 package id." = length(package) == 1)
-  
-  stopifnot("resource contains id/s of incorrect length." = is.null(resource) || all(valid_id(resource)))
-  
-  urls <- package_metadata(package = package)$resources$url
-  
-  if (!is.null(resource)) {
-    for (ii in seq_len(length(urls))) {
-      
-      found <- 0
-      
-      for (jj in seq_len(length(resource))) {
-        
-        if (grepl(resource[jj], urls[ii])) found <- found + 1
-        
-        if (found > 0) break
-      }
-      if (found == 0) urls[ii] <- NA
+  res <- (function(x = package, y = resource) {
+    
+    rsrc <- all_resources()
+    
+    if (!is.null(x)){
+      rsrc <- rsrc[rsrc$package_name %in% x | rsrc$package_id %in% x,]
+      x = x[!x %in% c(rsrc$package_name, rsrc$package_id)]
+    } 
+    
+    if (!is.null(y)) {
+      rsrc <- rsrc[rsrc$resource_name %in% y | rsrc$resource_id %in% y,]
+      y = y[!y %in% c(rsrc$resource_name, rsrc$resource_id)]
     }
-    urls <- urls[!is.na(urls)]
+    
+    rsrc <- list(
+      urls = rsrc$url,
+      pckg_not_found = list("packages", x),
+      rsrc_not_found = list("resources", y)
+    )
+    
+    return(rsrc)
+  })()
+  
+  len <- length(res$urls)
+  
+  out <- vector(mode = "list", length = len)
+  
+  if (len > 0) {
+    
+    out <- lapply(res$urls, data.table::fread, keepLeadingZeros = TRUE, 
+                  data.table = FALSE, nrows = limit, showProgress = FALSE)
+    
+    for (ii in list(res$pckg_not_found, res$rsrc_not_found)){
+      
+      if (length(ii[[2]]) > 0) {
+        message(glue::glue("The following {ii[[1]]} were not found;\n"))
+        message(glue::glue("{ii[[2]]} \n\n"))
+      }
+    }
+    
+  } else {
+    
+    warning("No resources found for arguments provided. Returning empty list.")
+    out <- list()
+    
   }
-  
-  out <- lapply(urls, data.table::fread, keepLeadingZeros = TRUE, 
-                data.table = FALSE, nrows = limit, showProgress = FALSE)
-  
-  stopifnot("no datasets found using specified arguments" = length(out) > 0)
   
   return(out)
 }
