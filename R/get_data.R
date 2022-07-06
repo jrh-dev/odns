@@ -17,57 +17,91 @@
 #'  non-numeric values must be single quoted ', and both single and
 #'  double quotes must be delimited. Example; \code{where = "\"AgeGroup\" = 
 #'  \'45-49 years\'"}.
+#' @param page_size An integer specifying the maximum number of records to be
+#'  returned per query. Setting a value causes the use of offset pagination,
+#'  multiple queries will be sent to return subsets of the available data.
+#'  Subsets are joined before being returned. The default NULL value will always
+#'  attempt to return all rows with a single query.
 #'
 #' @return A data.frame.
 #'
 #' @examples
 #' \dontrun{
+#' get_data(resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69")
+#' 
 #' get_data(
 #'   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
 #'   fields = c("AgeGroup", "EuropeanStandardPopulation"),
-#'   limit = 5L,
 #'   where = "\"AgeGroup\" = \'45-49 years\'"
 #' )
 #' }
 #'
 #' @export
-get_data <- function(resource, fields = NULL, limit = NULL, where = NULL) {
-
-  stopifnot("resource id not recognised, a valid id should be 36 characters" = valid_id(resource))
+get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
+                     page_size = NULL) {
   
   meta <- resource_metadata(resource)$id
-
-  if (!is.null(limit)) limit <- as.integer(limit)
-
-  stopifnot(all(fields %in% meta))
-
-  use_nosql <- !(is.null(limit) || limit > 99999) & is.null(where)
   
-  if (use_nosql) {
-
-    query <- prep_nosql_query(resource, fields, limit)
-
-  } else {
-
-    query <- prep_sql_query(resource, fields, limit, where)
+  stopifnot(
+    "Check resource argument, a valid ID is exactly 36 characters long" = valid_id(resource),
+    "limit must be NULL or numeric" = is.null(limit) || is.numeric(limit),
+    "page_size must be NULL or numeric" = is.null(page_size) ||is.numeric(page_size),
+    "fields must only contain column names present in the target resource." = all(fields %in% meta)
+    )
+  
+  n_rows <- nrow_resource(resource)
+  
+  limit <- as.integer(if(is.null(limit)) n_rows else limit)
+  
+  page_size <- as.integer(if(is.null(page_size)) n_rows else page_size)
+  
+  catch <- vector("list", ceiling(min(limit, n_rows) / page_size))
+  
+  page <- 1
+  
+  while (page <= length(catch)) {
     
+    p_offset = (page - 1) * page_size
+    
+    p_limit = as.integer(min(limit - p_offset, page_size))
+    
+    query <- if (is.null(where)) {
+      
+      prep_nosql_query(resource = resource, fields = fields, limit = p_limit, 
+                       offset = p_offset)
+      
+    } else {
+      
+      prep_sql_query(resource = resource, fields = fields, limit = p_limit,
+                     offset = p_offset, where = where)
+    }
+    
+    res <- httr::GET(query)
+    
+    httr::stop_for_status(res)
+    
+    catch[[page]] <- httr::content(res)
+    
+    catch[[page]] <- lapply(catch[[page]]$result$records, function(x) {
+      as.list(sapply(x, function(y) ifelse(is.null(y), NA, y)))
+    })
+    
+    catch[[page]] <- as.data.frame(
+      data.table::rbindlist(catch[[page]], use.names = TRUE, fill = TRUE)
+    )
+    
+    page <- page + 1
   }
-
-  res <- httr::GET(query)
   
-  httr::stop_for_status(res)
+  out <- do.call(rbind, catch)
   
-  res <- httr::content(res)
-
-  out <- lapply(res$result$records, function(x) as.list(sapply(x, function(y) ifelse(is.null(y), NA, y))))
+  out <- utils::type.convert(out, as.is = TRUE)
   
-  out <- as.data.frame(data.table::rbindlist(out, use.names = TRUE, fill = TRUE))
-  
-  if (!use_nosql) out = utils::type.convert(out, as.is = TRUE)
-
-  if (any(names(out) %in% c("_full_text", "_id"))) out <- out[ , !names(out) %in% c("_full_text", "_id")]
+  if (any(names(out) %in% c("_full_text", "_id"))) {
+    out <- out[ , !names(out) %in% c("_full_text", "_id")]
+  } 
   
   data.table::setcolorder(out, meta[meta %in% names(out)])
-
+  
   return(out)
 }
