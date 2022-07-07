@@ -40,12 +40,16 @@
 get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
                      page_size = NULL) {
   
+  stopifnot(
+    "Only one resource can be specified" = length(resource) == 1,
+    "Check resource argument, a valid ID is exactly 36 characters long" = valid_id(resource),
+    "limit must be NULL or numeric" = is.null(limit) || is.numeric(limit),
+    "page_size must be NULL or numeric" = is.null(page_size) ||is.numeric(page_size)
+  )
+    
   meta <- resource_metadata(resource)$id
   
   stopifnot(
-    "Check resource argument, a valid ID is exactly 36 characters long" = valid_id(resource),
-    "limit must be NULL or numeric" = is.null(limit) || is.numeric(limit),
-    "page_size must be NULL or numeric" = is.null(page_size) ||is.numeric(page_size),
     "fields must only contain column names present in the target resource." = all(fields %in% meta)
     )
   
