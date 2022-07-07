@@ -43,67 +43,65 @@ Example of structure;
 To view all the packages available we can use `all_packages()`.
 <br><br>
 ```
-all_packages()
+#' view all available packages
+
+> all_packages()
   
-#>  [1] "18-weeks-referral-to-treatment"                                                
-#>  [2] "27-30-month-review-statistics"                                                
-#>  [3] "alcohol-related-hospital-statistics-scotland"
-#>  [4] "allied-health-professionals-musculoskeletal-waiting-times"
-#>  [5] "allied-health-professional-vacancies"
-#>  ...
+# package_name                                      package_id
+# covid-19-vaccination-in-scotland                  6dbdd466-…
+# enhanced-surveillance-of-covid-19-in-scotland     3c5231ee-…
+# hospital-onset-covid-19-cases-in-scotland         d67b13ef-…
+# weekly-covid-19-statistical-data-in-scotland      524b42b4-…
+# covid-19-in-scotland                              b318bddf-…
+# … with 85 more rows
 ```
 <br>
 
 If we wish to search for packages by name, or a part of a name, we can use the `contains` argument of `all_packages()`. For example if we want to find packages relating to populations;
 <br><br>
 ```
-all_packages(contains = "population")
+> all_packages(contains = "population")
 
-#>  [1] "gp-practice-populations" "population-estimates"   
-#>  [3] "population-projections"  "standard-populations"
+# package_name                           package_id                          
+# population-estimates                   7f010430-6ce1-4813-b25c-f7f335bdc4dc
+# standard-populations                   4dd86111-7326-48c4-8763-8cc4aa190c3e
+# population-projections                 9e00b589-817e-45e6-b615-46c935bbace0
+# gp-practice-populations                e3300e98-cdd2-4f4e-a24e-06ee14fcc66c
+# scottish-index-of-multiple-deprivation 78d41fa9-1a62-4f7b-9edb-3e8522a93378
 ```
 <br>
 
 If we prefer to see more detail, including the names of resources within packages, we can use `all_resources()` with the `package_contains` argument.
 <br><br>
 ```
-all_resources(package_contains = "population")
+#' view all resources within packages whose names contain "population"
 
-#>                                   name            package_name
-#> 1   GP Practice Populations April 2022 gp-practice-populations
-#> 2 GP Practice Populations January 2022 gp-practice-populations
-#>                                     id
-#> 1 2c701f90-c26d-4963-8062-95b8611e5fd1
-#> 2 d07debcf-7832-4dc4-afb2-41101d5cc7ff
-#>                             package_id
-#> 1 e3300e98-cdd2-4f4e-a24e-06ee14fcc66c
-#> 2 e3300e98-cdd2-4f4e-a24e-06ee14fcc66c
-#>                last_modified
-#> 1 2022-05-10T09:43:24.390241
-#> 2 2022-02-07T11:13:52.195764
+> all_resources(package_contains = "population")
+
+# resource_name         resource_id package_name package_id url   last_modified
+# Data Zone (2011) Pop… c505f490-c… population-… 7f010430-… http… 2021-10-11T1…
+# Intermediate Zone (2… 93df4c88-f… population-… 7f010430-… http… 2021-10-11T1…
+# Council Area (2019) … 09ebfefb-3… population-… 7f010430-… http… 2021-07-06T0…
+# Health and Social Ca… c3a393ce-2… population-… 7f010430-… http… 2021-07-06T0…
+# Health Board (2019) … 27a72cc8-d… population-… 7f010430-… http… 2021-07-06T0…
+# … with 53 more rows
 ```
 <br>
 
 The `resource_contains` argument of `all_resources()` can also be used to further narrow the results of a query.
 <br><br>
 ```
-all_resources(resource_contains = "european")
+#' view all resources whose names contain "population"
 
-#>                                   name
-#>  1        European Standard Population
-#>  2 European Standard Population by Sex
-#>            package_name
-#>  1 standard-populations
-#>  2 standard-populations
-#>                                      id
-#>  1 edee9731-daf7-4e0d-b525-e4c1469b8f69
-#>  2 29ce4cda-a831-40f4-af24-636196e05c1a
-#>                              package_id
-#>  1 4dd86111-7326-48c4-8763-8cc4aa190c3e
-#>  2 4dd86111-7326-48c4-8763-8cc4aa190c3e
-#>                 last_modified
-#>  1 2018-04-05T14:42:35.785110
-#>  2 2018-04-05T14:45:36.996054
+> all_resources(resource_contains = "european")
+
+# resource_name         resource_id package_name package_id url   last_modified
+# Population mortality… ec2af2be-8… hospital-st… c88a5231-… http… 2022-05-10T0…
+# GP Practice Populati… 2c701f90-c… gp-practice… e3300e98-… http… 2022-05-10T0…
+# GP Practice Populati… d07debcf-7… gp-practice… e3300e98-… http… 2022-02-07T1…
+# GP Practice Populati… 4a3c438b-2… gp-practice… e3300e98-… http… 2021-11-02T1…
+# GP Practice Populati… 0779e100-1… gp-practice… e3300e98-… http… 2022-02-17T1…
+# … with 45 more rows
 ```
 <br>
 
@@ -116,9 +114,32 @@ When passing search strings they are case insensitive. The example above of `all
 Lets say that we are interested in 'standard-populations' resource 'European Standard Population'. We can view the metadata for the package and the resource.
 <br><br>
 ```
-package_metadata(package = "standard-populations")
+#' view metadata for a package using a valid package name
 
-resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+> package_metadata(package = "standard-populations")
+
+# $nhs_language
+# [1] "English"
+# 
+# $license_title
+# [1] "UK Open Government Licence (OGL)"
+# 
+# $maintainer
+# [1] ""
+# 
+# $version
+# [1] ""
+#
+#...
+
+#' view metadata for a resource using a valid resource id
+
+> resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+
+#   id                          type   
+#   _id                         int    
+#   AgeGroup                    text   
+#   EuropeanStandardPopulation  numeric
 ```
 <br>
 
@@ -130,25 +151,48 @@ The resource metadata provides details of the available fields and their types. 
 ## Importing data to R
 
 
-We can import all of the resources within a package using `get_resource()`.
-<br><br>
-```
-# get full data-sets
-get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e")
+We can import all of the resources within a package using `get_resource()`. This is often the quickest and simplest way to import data where all resources within one or more packages are required.
 
-# get the first 10 rows of each data-set
-get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e", limit = 10L)
+<br><br>
+
+```
+#' get all resources in a package
+
+> get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e")
+
+#' get the first 10 rows of each resource in a package
+
+> get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e", limit = 10L)
+
+#' both package IDs and names can be used
+
+> get_resource(package = "standard-populations", limit = 10L)
+
+#' multiple packages can be specified returning all resources under each
+
+> get_resource(package = c("standard-populations", "population-projections")
+
 ```
 <br>
 
 We can also use the `resource` argument of `get_resource()` to import a specific resource within a package. This is often the simplest way to get a single resource in its entirety.
 <br><br>
 ```
-get_dataset(
-   package = "4dd86111-7326-48c4-8763-8cc4aa190c3e",
-   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
-   limit = 5L
-   )
+#' get specific resources
+
+> get_resource(
+    resource = c("European Standard Population",
+    "9e00b589-817e-45e6-b615-46c935bbace0"),
+    limit = 5L
+    )
+    
+#' get a specific resource, if it exists within a specified package
+
+> get_resource(
+    package = "standard-populations",
+    resource = "European Standard Population"
+    )
+ 
 ```
 <br>
 
@@ -157,21 +201,35 @@ get_dataset(
 Where more granular control is desired over the data imported, the `get_data()` function can be used. `get_data()` allows us to import selected fields and to filter the data. If we want to import the fields 'AgeGroup' and 'EuropeanStandardPopulation' from the 'European Standard Population' resource we can achieve this with `get_data()`.
 <br><br>
 ```
-get_data(
-   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
-   fields = c("AgeGroup", "EuropeanStandardPopulation")
- )
+# import specified fields from a resource
+>  get_data(
+     resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+     fields = c("AgeGroup", "EuropeanStandardPopulation")
+   )
+
+# AgeGroup     EuropeanStandardPopulati…
+# 0-4 years                         5000
+# 5-9 years                         5500
+# 10-14 years                       5500
+# 15-19 years                       5500
+# 20-24 years                       6000
+# … with 14 more rows
 ```
 <br>
 
 The `where` argument of `get_data()` can be used to exact further control over the data we import. If we only want to retrieve rows from 'European Standard Population' where the age group is 45-49 years, we can write a SQL style where query to achieve this.
 <br><br>
 ```
-get_data(
-   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
-   fields = c("AgeGroup", "EuropeanStandardPopulation"),
-   where = "\"AgeGroup\" = \'45-49 years\'"
- )
+#' import specified fields from a data set utilising a SQL style where query
+
+> get_data(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+    fields = c("AgeGroup", "EuropeanStandardPopulation"),
+    where = "\"AgeGroup\" = \'45-49 years\'"
+  )
+  
+# AgeGroup    EuropeanStandardPopulation
+# 45-49 years                       7000
  ```
  <br>
 

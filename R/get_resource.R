@@ -1,4 +1,4 @@
-#' Get selected resources or all resources within a package.
+#' Get one or more resources or all resources within a package.
 #'
 #' @description Get data from one or more resources, or all resources within a 
 #'  package, as a list, with each resource in tabular format. Where field
@@ -7,11 +7,15 @@
 #'
 #' @param package A character vector specifying package ids or names. If the 
 #'  \code{resource} argument is not provided all resources under each of the
-#'  specified packages will be returned.
+#'  specified packages will be returned. The \code{package} argument itself is
+#'  optional, but one of \code{package} or \code{resource} argumentsmust be
+#'  provided.
 #' @param resource A character vector specifying resource ids or names. If the 
-#'  \code{resource} argument is provided then resources will only be returned if
-#'  they exist under one of the specified packages, otherwise each of the
-#'  specified resources will be returned.
+#'  \code{package} argument is also provided then resources will only be
+#'  returned if they exist under one of the specified packages, otherwise each
+#'  of the specified resources will be returned. The \code{resource} argument
+#'  itself is optional, but one of \code{resource} or \code{package} arguments
+#'  must be provided.
 #' @param limit A numeric value specifying the maximum number of rows to be
 #' returned. Default value `Inf` returns all rows.
 #' 
@@ -33,6 +37,11 @@
 #' 
 #' get_resource(
 #'   package = "standard-populations",
+#'   resource = "European Standard Population",
+#'   limit = 5L
+#'   )
+#'   
+#'  get_resource(
 #'   resource = "European Standard Population",
 #'   limit = 5L
 #'   )

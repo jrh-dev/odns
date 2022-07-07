@@ -12,11 +12,12 @@
 
 `odns` provides a base for exploring and obtaining data available through the [Scottish Health and Social Care Open Data platform](https://www.opendata.nhs.scot/). The package provides a wrapper for the underlying [CKAN](https://ckan.org) API and simplifies the process of accessing the available data with R, allowing users to quickly explore the available data and start using it without having to write complex queries.
 
-## Installation
+# Installation
 Install `odns` from CRAN;
 ```
 install.packages("odns")
 ```
+&nbsp;
 
 Install `odns` from GitHub;
 
@@ -24,17 +25,18 @@ Install `odns` from GitHub;
 devtools::install_github("https://github.com/jrh-dev/odns")
 ```
 
-## Usage
+# Usage
 
-### Language of CKAN
+## The Language of CKAN
 CKAN and by extension this package refers to *packages* and *resources*. 
 
 The term *package* refers to a dataset, a collection of *resources*. A *resource*, contains the data itself.
 
-Example of structure;
+Example of CKAN structure;
 
 ```
-.
+CKAN
+│
 ├── package_1
 │   ├── resource_1
 │   ├── resource_2
@@ -44,172 +46,237 @@ Example of structure;
     ├── resource_1
     └── resource_2
 ```
+&nbsp;
 
-### Exploring the available data
+## Exploring the available data
 
-To view all the packages available;
+To view available packages in a data.frame along with the package ID;
 
 ```
-all_packages()
+#' view all available packages
+
+> all_packages()
   
-#  [1] "18-weeks-referral-to-treatment"                                                
-#  [2] "27-30-month-review-statistics"                                                
-#  [3] "alcohol-related-hospital-statistics-scotland"
-#  [4] "allied-health-professionals-musculoskeletal-waiting-times"
-#  [5] "allied-health-professional-vacancies"
-#   ...
+# package_name                                      package_id
+# covid-19-vaccination-in-scotland                  6dbdd466-…
+# enhanced-surveillance-of-covid-19-in-scotland     3c5231ee-…
+# hospital-onset-covid-19-cases-in-scotland         d67b13ef-…
+# weekly-covid-19-statistical-data-in-scotland      524b42b4-…
+# covid-19-in-scotland                              b318bddf-…
+# … with 85 more rows
+
+
+#' limit the return by specifying a search string
+
+> all_packages(contains = "population")
+
+# package_name                           package_id                          
+# population-estimates                   7f010430-6ce1-4813-b25c-f7f335bdc4dc
+# standard-populations                   4dd86111-7326-48c4-8763-8cc4aa190c3e
+# population-projections                 9e00b589-817e-45e6-b615-46c935bbace0
+# gp-practice-populations                e3300e98-cdd2-4f4e-a24e-06ee14fcc66c
+# scottish-index-of-multiple-deprivation 78d41fa9-1a62-4f7b-9edb-3e8522a93378
 ```
 
-Or, to search for packages whose names contain a certain string;
+&nbsp;
+
+To view details of the all available resources;
 
 ```
-all_packages(contains = "population")
+#' view all available resources
+> all_resources()
 
-#  [1] "gp-practice-populations" "population-estimates"   
-#  [3] "population-projections"  "standard-populations"
-```
-
-To view details of the available resources;
-
-```
-# view all available resources
-all_resources()
-
-#                                     name
-#  1 Monthly 18 Weeks RTT by Health Boards
-#  2               Review by Council Areas
-#                      package_name
-#  1 18-weeks-referral-to-treatment
-#  2  27-30-month-review-statistics
-#                                      id
-#  1 f2598c24-bf00-4171-b7ef-a469bbacbf6c
-#  2 018ba0e1-6562-43bb-82c5-97b6c6cc22d8
-#                              package_id
-#  1 aa8b22e8-8a02-484d-a6c8-0a0154a6249d
-#  2 f4ee46d4-cda9-4180-b6be-0f0e45ee3c8c
-#                 last_modified
-#  1 2022-05-31T08:39:46.135064
-#  2 2022-04-26T09:06:47.063012
-#   ...
+#  resource_name        resource_id package_name package_id url   last_modified    
+#  Daily Trend of Tota… 42f17a3c-a… covid-19-va… dbdd466-…  http… 2022-07-06T1…
+#  Daily Trend of Vacc… 9b99e278-b… covid-19-va… dbdd466-…  http… 2022-07-06T1…
+#  Daily Trend of Vacc… 758f72d6-7… covid-19-va… dbdd466-…  http… 2022-07-06T1…
+#  Daily Trend of Vacc… 09f5073d-2… covid-19-va… dbdd466-…  http… 2022-07-06T1…
+#  Daily Trend of Vacc… 8f7b64b1-e… covid-19-va… 6dbdd46-…  http… 2022-07-06T1…
+# … with 720 more rows
 
 
-# view all resources under packages whose names contain "population"
-all_resources(package_contains = "population")
+#' view all resources within packages whose names contain "population"
 
-#                                   name            package_name
-# 1   GP Practice Populations April 2022 gp-practice-populations
-# 2 GP Practice Populations January 2022 gp-practice-populations
-#                                     id
-# 1 2c701f90-c26d-4963-8062-95b8611e5fd1
-# 2 d07debcf-7832-4dc4-afb2-41101d5cc7ff
-#                             package_id
-# 1 e3300e98-cdd2-4f4e-a24e-06ee14fcc66c
-# 2 e3300e98-cdd2-4f4e-a24e-06ee14fcc66c
-#                last_modified
-# 1 2022-05-10T09:43:24.390241
-# 2 2022-02-07T11:13:52.195764
+> all_resources(package_contains = "population")
 
-# view all resources, regardless of containing package, whose names contain "European"
-all_resources(resource_contains = "european")
+# resource_name         resource_id package_name package_id url   last_modified
+# Data Zone (2011) Pop… c505f490-c… population-… 7f010430-… http… 2021-10-11T1…
+# Intermediate Zone (2… 93df4c88-f… population-… 7f010430-… http… 2021-10-11T1…
+# Council Area (2019) … 09ebfefb-3… population-… 7f010430-… http… 2021-07-06T0…
+# Health and Social Ca… c3a393ce-2… population-… 7f010430-… http… 2021-07-06T0…
+# Health Board (2019) … 27a72cc8-d… population-… 7f010430-… http… 2021-07-06T0…
+# … with 53 more rows
 
-#                                   name
-#  1        European Standard Population
-#  2 European Standard Population by Sex
-#            package_name
-#  1 standard-populations
-#  2 standard-populations
-#                                      id
-#  1 edee9731-daf7-4e0d-b525-e4c1469b8f69
-#  2 29ce4cda-a831-40f4-af24-636196e05c1a
-#                              package_id
-#  1 4dd86111-7326-48c4-8763-8cc4aa190c3e
-#  2 4dd86111-7326-48c4-8763-8cc4aa190c3e
-#                 last_modified
-#  1 2018-04-05T14:42:35.785110
-#  2 2018-04-05T14:45:36.996054
+#' view all resources whose names contain "population"
 
-# view all resources under packages whose names contain "population" and where the package name contains contain "european"
-all_resources(package_contains = "population", resource_contains = "european")
+> all_resources(resource_contains = "european")
 
-#                                   name
-#  1        European Standard Population
-#  2 European Standard Population by Sex
-#            package_name
-#  1 standard-populations
-#  2 standard-populations
-#                                      id
-#  1 edee9731-daf7-4e0d-b525-e4c1469b8f69
-#  2 29ce4cda-a831-40f4-af24-636196e05c1a
-#                              package_id
-#  1 4dd86111-7326-48c4-8763-8cc4aa190c3e
-#  2 4dd86111-7326-48c4-8763-8cc4aa190c3e
-#                 last_modified
-#  1 2018-04-05T14:42:35.785110
-#  2 2018-04-05T14:45:36.996054
+# resource_name         resource_id package_name package_id url   last_modified
+# Population mortality… ec2af2be-8… hospital-st… c88a5231-… http… 2022-05-10T0…
+# GP Practice Populati… 2c701f90-c… gp-practice… e3300e98-… http… 2022-05-10T0…
+# GP Practice Populati… d07debcf-7… gp-practice… e3300e98-… http… 2022-02-07T1…
+# GP Practice Populati… 4a3c438b-2… gp-practice… e3300e98-… http… 2021-11-02T1…
+# GP Practice Populati… 0779e100-1… gp-practice… e3300e98-… http… 2022-02-17T1…
+# … with 45 more rows
+
+#' view all resources under packages whose names contain "population" and where 
+#' the package name contains contain "european"
+
+> all_resources(package_contains = "population", resource_contains = "european")
+
+# resource_name          resource_id package_name package_id url   last_modified
+# European Standard Pop… edee9731-d… standard-po… 4dd86111-… http… 2018-04-05T1…
+# European Standard Pop… 29ce4cda-a… standard-po… 4dd86111-… http… 2018-04-05T1…
 
 ```
 
-In the examples above the search strings are case insensitive.
+In the examples above the search strings are **NOT** case sensitive.
 
-### Viewing package and resource metadata
+&nbsp;
+
+## Viewing package and resource metadata
 
 Package and resource metadata contains useful information about the available data. To view metadata;
 
 ```
-# view metadata for a package
-# using a valid package name
-package_metadata(package = "standard-populations")
+#' view metadata for a package using a valid package name
 
-# using a valid package id
-package_metadata(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e")
+> package_metadata(package = "standard-populations")
 
-# view metadata for a resource
-# using a valid resource id
-resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+# $nhs_language
+# [1] "English"
+# 
+# $license_title
+# [1] "UK Open Government Licence (OGL)"
+# 
+# $maintainer
+# [1] ""
+# 
+# $version
+# [1] ""
+#
+#...
+
+#' view metadata for a package using a valid package id
+
+> package_metadata(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e")
+
+# $nhs_language
+# [1] "English"
+# 
+# $license_title
+# [1] "UK Open Government Licence (OGL)"
+# 
+# $maintainer
+# [1] ""
+# 
+# $version
+# [1] ""
+#
+#...
+
+#' view metadata for a resource using a valid resource id
+
+> resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+
+#   id                          type   
+#   _id                         int    
+#   AgeGroup                    text   
+#   EuropeanStandardPopulation  numeric
 ```
 
-### Importing data to R
+&nbsp;
 
-To import all resources within a package;
+## Importing data to R
+
+There are multiple ways to import resources into R.
+
+### Using `get_resource`
+
+`get_resource()` is often the quickest and simplest way to import data where all resources within one or more packages are required.
+
+To import all resources within a package as a list with each element containing
+one resource;
 
 ```
-# get full data-sets
-get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e")
+#' get all resources in a package
 
-# get the first 10 rows of each data-set
-get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e", limit = 10L)
+> get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e")
+
+#' get the first 10 rows of each resource in a package
+
+> get_resource(package = "4dd86111-7326-48c4-8763-8cc4aa190c3e", limit = 10L)
+
+#' both package IDs and names can be used
+
+> get_resource(package = "standard-populations", limit = 10L)
+
+#' multiple packages can be specified returning all resources under each
+
+> get_resource(package = c("standard-populations", "population-projections")
+
 ```
 
-To import specific resources within a package;
+To import specific resources;
 
 ```
-get_dataset(
-   package = "4dd86111-7326-48c4-8763-8cc4aa190c3e",
-   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
-   limit = 5L
+#' get specific resources
+
+> get_resource(
+    resource = c("European Standard Population",
+    "9e00b589-817e-45e6-b615-46c935bbace0"),
+    limit = 5L
+    )
+    
+#' get a specific resource, if it exists within a specified package
+
+> get_resource(
+    package = "standard-populations",
+    resource = "European Standard Population"
+    )
+ 
+```
+
+&nbsp;
+
+### Using `get_data`
+
+The `get_data()` function can be used to exact more control over the content returned, allowing for selection of specific fields, and basic filtering. `get_data()` is for use with one resource at a time and only accepts a resource ID, not a resource name.
+
+```
+# import specified fields from a resource
+>  get_data(
+     resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+     fields = c("AgeGroup", "EuropeanStandardPopulation")
    )
+
+# AgeGroup     EuropeanStandardPopulati…
+# 0-4 years                         5000
+# 5-9 years                         5500
+# 10-14 years                       5500
+# 15-19 years                       5500
+# 20-24 years                       6000
+# … with 14 more rows
+   
 ```
 
-The `get_data()` function can be used to exact more control over the data returned.
+&nbsp;
+
+The `where` argument of `get_data()` can be used to extract more specific subsets of the full resources available by passing the "WHERE" element of a SQL style query[^1].
 
 ```
-# import specified fields from a data set
-get_data(
-   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
-   fields = c("AgeGroup", "EuropeanStandardPopulation")
- )
-```
+#' import specified fields from a data set utilising a SQL style where query
 
-The `where` argument of `get_data()` can be used to extract more specific subsets of the full resources available by passing the "WHERE" element of a SQL style query.
-```
-# import specified fields from a data set utilising a SQL style where query
-get_data(
-   resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
-   fields = c("AgeGroup", "EuropeanStandardPopulation"),
-   where = "\"AgeGroup\" = \'45-49 years\'"
- )
+> get_data(
+    resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69",
+    fields = c("AgeGroup", "EuropeanStandardPopulation"),
+    where = "\"AgeGroup\" = \'45-49 years\'"
+  )
+  
+# AgeGroup    EuropeanStandardPopulation
+# 45-49 years                       7000
  ```
  
-#### Correct formatting for SQL
+&nbsp;
  
-The option provided by the `get_data()` function to specify a `where` argument requires specific formatting for compatibility with the CKAN API. Field names must be double quoted `"`, non-numeric values must be single quoted `'`, and both single and double quotes must be delimited. Example; `where = "\"AgeGroup\" = \'45-49 years\\'"`.
+[^1]: The option provided by the `get_data()` function to specify a `where` argument requires specific formatting for compatibility with the CKAN API. Field names must be double quoted `"`, non-numeric values must be single quoted `'`, and both single and double quotes must be delimited. Example; `where = "\"AgeGroup\" = \'45-49 years\\'"`.
