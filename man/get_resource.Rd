@@ -10,7 +10,7 @@ get_resource(package = NULL, resource = NULL, limit = Inf)
 \item{package}{A character vector specifying package ids or names. If the
 \code{resource} argument is not provided all resources under each of the
 specified packages will be returned. The \code{package} argument itself is
-optional, but one of \code{package} or \code{resource} argumentsmust be
+optional, but one of \code{package} or \code{resource} arguments must be
 provided.}
 
 \item{resource}{A character vector specifying resource ids or names. If the

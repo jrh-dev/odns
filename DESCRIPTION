@@ -19,7 +19,6 @@ Imports:
     httr,
     utils,
     data.table,
-    methods,
     jsonlite
 Suggests: 
     knitr,
