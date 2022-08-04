@@ -119,8 +119,8 @@ To view details of the all available resources;
 # GP Practice Populati… 0779e100-1… gp-practice… e3300e98-… http… 2022-02-17T1…
 # … with 45 more rows
 
-#' view all resources under packages whose names contain "population" and where 
-#' the package name contains contain "european"
+#' view all resources within packages whose names contain "population" and where 
+#' the resource name contains contain "european"
 
 > all_resources(package_contains = "population", resource_contains = "european")
 
