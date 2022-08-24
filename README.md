@@ -7,6 +7,7 @@
 [![R-CMD-check](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/jrh-dev/odns/actions/workflows/check-standard.yaml)
 [![test-coverage](https://github.com/jrh-dev/odns/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/jrh-dev/odns/actions/workflows/test-coverage.yaml)
 [![downloads](https://cranlogs.r-pkg.org/badges/odns)](https://www.rdocumentation.org/trends)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
 <!-- badges: end -->
 
