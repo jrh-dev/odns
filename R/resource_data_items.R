@@ -8,11 +8,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+#' resource_data_items(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
 #' }
 #'
 #' @export
-resource_metadata <- function(resource) {
+resource_data_items <- function(resource) {
 
   query <- utils::URLencode(
     glue::glue(

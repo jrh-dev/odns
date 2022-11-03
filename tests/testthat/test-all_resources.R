@@ -36,3 +36,4 @@ testthat::test_that('live query returns no errors and successful run', {
       resource_contains = "European"
     )))
 })
+

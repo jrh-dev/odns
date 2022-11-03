@@ -47,7 +47,7 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
     "page_size must be NULL or numeric" = is.null(page_size) ||is.numeric(page_size)
   )
     
-  meta <- resource_metadata(resource)$id
+  meta <- resource_data_items(resource)$id
   
   stopifnot(
     "fields must only contain column names present in the target resource." = all(fields %in% meta)
