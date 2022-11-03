@@ -37,11 +37,11 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
     "rows={32000}"
   ))
   
-  cap_url(query)
+  ._cap_url(query)
   
   res <- httr::GET(query)
   
-  detect_error(res)
+  ._detect_error(res)
   
   out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   
@@ -59,7 +59,8 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
     package_name = unname(pkgs[unlist(out$package_id)]),
     package_id = unlist(out$package_id),
     url = unlist(out$url),
-    last_modified = unlist(out$last_modified)
+    last_modified = unlist(out$last_modified),
+    stringsAsFactors = FALSE
   )
   
   if (!is.null(resource_contains)) {

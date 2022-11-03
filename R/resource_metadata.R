@@ -20,11 +20,11 @@ resource_metadata <- function(resource) {
       "datastore_search?id={resource}&limit=0"
     ))
   
-  cap_url(query)
+  ._cap_url(query)
   
   res = httr::GET(query)
   
-  detect_error(res)
+  ._detect_error(res)
   
   cont = httr::content(res)
   

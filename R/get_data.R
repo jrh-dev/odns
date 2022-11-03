@@ -42,7 +42,7 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
   
   stopifnot(
     "Only one resource can be specified" = length(resource) == 1,
-    "Check resource argument, a valid ID is exactly 36 characters long" = valid_id(resource),
+    "Check resource argument, a valid ID is exactly 36 characters long" = ._valid_id(resource),
     "limit must be NULL or numeric" = is.null(limit) || is.numeric(limit),
     "page_size must be NULL or numeric" = is.null(page_size) ||is.numeric(page_size)
   )
@@ -82,7 +82,7 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
     
     res <- httr::GET(query)
     
-    detect_error(res)
+    ._detect_error(res)
     
     catch[[page]] <- httr::content(res)
     
@@ -90,7 +90,7 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
       as.list(sapply(x, function(y) ifelse(is.null(y), NA, y)))
     })
     
-    catch[[page]] <- as.data.frame(
+    catch[[page]] <- data.table::setDF(
       data.table::rbindlist(catch[[page]], use.names = TRUE, fill = TRUE)
     )
     

@@ -27,7 +27,7 @@ prep_nosql_query <- function(resource, fields, limit, offset) {
       "&sort=_id"
     ))
   
-  cap_url(query)
+  ._cap_url(query)
   
   return(query)
 }
@@ -67,7 +67,7 @@ prep_sql_query <- function(resource, fields, limit, offset, where) {
       "{if (is.null(offset)) \"\" else o}"
     ))
   
-  cap_url(query)
+  ._cap_url(query)
   
   return(query)
 }

@@ -29,15 +29,15 @@ all_packages <- function(contains = NULL, limit = 1000L) {
       "rows={limit}"
     ))
   
-  cap_url(query)
+  ._cap_url(query)
   
   res <- httr::GET(query)
   
-  detect_error(res)
+  ._detect_error(res)
   
   out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   
-  out <- data.frame(package_name=unlist(out$name), package_id = unlist(out$id))
+  out <- data.frame(package_name=unlist(out$name), package_id = unlist(out$id), stringsAsFactors = FALSE)
   
   return(out)
 }

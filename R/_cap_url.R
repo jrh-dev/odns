@@ -5,7 +5,7 @@
 #' @param x a character string to check.
 #' 
 #' @return invisible.
-cap_url <- function(x) {
+._cap_url <- function(x) {
   
   stopifnot(
     "url exceeds 2000 characters, please try a simpler query." = nchar(as.character(x)) <= 2000
