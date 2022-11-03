@@ -1,5 +1,19 @@
 # odns 1.0.2
 
+## New
+
+
+## POTENTIALLY BREAKING CHANGES
+* `resource_metadata()` now returns the actual metadata of a resource rather
+than a data.frame detailing the names and types of all fields available for the
+chosen resource. A new function provides the old behavior, 
+`resource_data_items()`.
+
+## Minor Changes
+* Users running an R version < 4.0.0 will no longer be impacted by the  
+`stringsAsFactors == TRUE` default. This change aligns behavior of the package 
+accross compatible versions of R.
+
 # odns 1.0.1
 
 ## New
