@@ -37,11 +37,11 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
     "rows={32000}"
   ))
   
-  ._cap_url(query)
+  cap_url(query)
   
   res <- httr::GET(query)
   
-  ._detect_error(res)
+  detect_error(res)
   
   out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   

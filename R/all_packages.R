@@ -29,11 +29,11 @@ all_packages <- function(contains = NULL, limit = 1000L) {
       "rows={limit}"
     ))
   
-  ._cap_url(query)
+  cap_url(query)
   
   res <- httr::GET(query)
   
-  ._detect_error(res)
+  detect_error(res)
   
   out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   

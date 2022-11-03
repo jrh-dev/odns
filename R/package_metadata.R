@@ -20,11 +20,11 @@ package_metadata <- function(package) {
     "https://www.opendata.nhs.scot/api/3/action/package_show?id={package}"
   ))
   
-  ._cap_url(query)
+  cap_url(query)
   
   res <- httr::GET(query)
   
-  ._detect_error(res)
+  detect_error(res)
   
   con <- httr::content(res)
   

@@ -4,7 +4,7 @@
 #' 
 #' @return logical value indicating whether the string checked consists of 36
 #'  characters.
-._valid_id <- function(x) {
+valid_id <- function(x) {
   
   return(nchar(as.character(x)) == 36)
   

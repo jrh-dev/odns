@@ -3,7 +3,7 @@
 #' @param result A http response.
 #' 
 #' @return invisible
-._detect_error <- function(result) {
+detect_error <- function(result) {
   
   if (httr::http_error(result)) {
     

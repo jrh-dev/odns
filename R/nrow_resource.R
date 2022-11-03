@@ -20,7 +20,7 @@ nrow_resource <- function(resource) {
   
   res <- httr::GET(query)
   
-  ._detect_error(res)
+  detect_error(res)
   
   res <- as.integer(unlist(httr::content(res)$result$records))
   
