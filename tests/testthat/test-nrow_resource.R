@@ -3,7 +3,7 @@ testthat::test_that("correct number of rows returned", {
   
   load(testthat::test_path("test_data", "nrow_resource_test_dat.rda"))
   
-  mockery::stub(nrow_resource, 'httr::GET', 
+  mockery::stub(nrow_resource, 'httr::RETRY', 
                 function(...) nrow_resource_test_dat)
   
   testthat::expect_equal(

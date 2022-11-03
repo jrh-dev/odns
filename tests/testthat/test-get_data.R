@@ -15,11 +15,11 @@ testthat::test_that('live query correctly returns data.frame', {
 })
 
 
-testthat::test_that('correct result returned using dummy httr::GET result', {
+testthat::test_that('correct result returned using dummy httr::RETRY result', {
   
   load(testthat::test_path("test_data", "get_data_test_1.rda"))
   
-  mockery::stub(get_data, 'httr::GET', function(...) get_data_test_1)
+  mockery::stub(get_data, 'httr::RETRY', function(...) get_data_test_1)
   
   testthat::expect_equal(
     digest::digest(get_data(
@@ -48,11 +48,11 @@ testthat::test_that('live query correctly returns data.frame', {
   ))
 })
 
-testthat::test_that('correct result returned using dummy httr::GET result', {
+testthat::test_that('correct result returned using dummy httr::RETRY result', {
   
   load(testthat::test_path("test_data", "get_data_test_2.rda"))
   
-  mockery::stub(get_data, 'httr::GET', function(...) get_data_test_2)
+  mockery::stub(get_data, 'httr::RETRY', function(...) get_data_test_2)
   
   testthat::expect_equal(
     digest::digest(get_data(
@@ -66,11 +66,11 @@ testthat::test_that('correct result returned using dummy httr::GET result', {
   )
 })
 
-testthat::test_that('correct result returned using dummy httr::GET result', {
+testthat::test_that('correct result returned using dummy httr::RETRY result', {
   
   load(testthat::test_path("test_data", "get_data_test_3.rda"))
   
-  mockery::stub(get_data, 'httr::GET', function(...) get_data_test_3)
+  mockery::stub(get_data, 'httr::RETRY', function(...) get_data_test_3)
   
   testthat::expect_equal(
     digest::digest(get_data(

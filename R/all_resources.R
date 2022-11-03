@@ -39,7 +39,13 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
   
   cap_url(query)
   
-  res <- httr::GET(query)
+  res <- httr::RETRY(
+    verb = "GET",
+    url = query,
+    times = 3,
+    quiet = TRUE,
+    terminate_on = c(404)
+  )
   
   detect_error(res)
   
@@ -67,7 +73,7 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
     out <- out[grepl(as.character(resource_contains), out$resource_name, ignore.case = TRUE),] 
     if (nrow(out) == 0)  warning(
       "No resources found for arguments provided. Returning empty data.frame."
-      )
+    )
   }
   
   return(out)

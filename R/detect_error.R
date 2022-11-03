@@ -12,7 +12,7 @@ detect_error <- function(result) {
       "Attempted method was {result$request$method}\n\n",
       "Attempted URL was \"{result$request$url}\""
     ), call. = FALSE)
-  
-    }
+    
+  }
   return(invisible())
 }

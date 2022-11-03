@@ -46,12 +46,12 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
     "limit must be NULL or numeric" = is.null(limit) || is.numeric(limit),
     "page_size must be NULL or numeric" = is.null(page_size) ||is.numeric(page_size)
   )
-    
+  
   meta <- resource_data_items(resource)$id
   
   stopifnot(
     "fields must only contain column names present in the target resource." = all(fields %in% meta)
-    )
+  )
   
   n_rows <- nrow_resource(resource)
   
@@ -80,7 +80,13 @@ get_data <- function(resource, fields = NULL, limit = NULL, where = NULL,
                      offset = p_offset, where = where)
     }
     
-    res <- httr::GET(query)
+    res <- httr::RETRY(
+      verb = "GET",
+      url = query,
+      times = 3,
+      quiet = TRUE,
+      terminate_on = c(404)
+    )
     
     detect_error(res)
     

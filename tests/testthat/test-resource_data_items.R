@@ -3,7 +3,7 @@ testthat::test_that('function correctly parses response', {
   
   load(testthat::test_path("test_data", "test_res_success.rda"))
   
-  mockery::stub(resource_data_items, 'httr::GET', function(...) test_res_success)
+  mockery::stub(resource_data_items, 'httr::RETRY', function(...) test_res_success)
   
   testthat::expect_equal(
   digest::digest(resource_data_items(resource="abcdef")),
@@ -15,7 +15,7 @@ testthat::test_that('function correctly provides error response', {
   
   load(testthat::test_path("test_data", "test_res_fail.rda"))
   
-  mockery::stub(resource_data_items, 'httr::GET', function(...) test_res_fail)
+  mockery::stub(resource_data_items, 'httr::RETRY', function(...) test_res_fail)
   
   testthat::expect_error(resource_data_items(resource="abcdef"))
   

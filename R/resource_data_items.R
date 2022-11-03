@@ -13,7 +13,7 @@
 #'
 #' @export
 resource_data_items <- function(resource) {
-
+  
   query <- utils::URLencode(
     glue::glue(
       "https://www.opendata.nhs.scot/api/3/action/",
@@ -22,7 +22,13 @@ resource_data_items <- function(resource) {
   
   cap_url(query)
   
-  res = httr::GET(query)
+  res = httr::RETRY(
+    verb = "GET",
+    url = query,
+    times = 3,
+    quiet = TRUE,
+    terminate_on = c(404)
+  )
   
   detect_error(res)
   
@@ -32,7 +38,7 @@ resource_data_items <- function(resource) {
   
   cont = data.table::setDF(
     data.table::rbindlist(cont, use.names = TRUE, fill = TRUE)
-    )[c("id", "type")]
+  )[c("id", "type")]
   
   return(cont)
 }
