@@ -1,7 +1,7 @@
 #' Get a table of available fields and their types for a specified resource.
 #'
-#' @param resource A character string containing the resource id of the data set
-#'  to be returned.
+#' @param resource A character string containing the resource id of the resource
+#'  for which information is to be returned.
 #'
 #' @return A data.frame detailing the names and types of all fields available
 #'  for the chosen resource.

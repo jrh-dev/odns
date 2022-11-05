@@ -180,10 +180,34 @@ Package and resource metadata contains useful information about the available da
 
 > resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
 
-#   id                          type   
-#   _id                         int    
-#   AgeGroup                    text   
-#   EuropeanStandardPopulation  numeric
+# $cache_last_updated
+# named list()
+#
+# $cache_url
+# named list()
+#
+# $mimetype_inner
+# named list()
+#
+# $hash
+# [1] ""
+#
+# $description
+# [1] "Different countries across Europe have different population structures - some have higher percentages of young people, whilst others have a greater proportion of old people. Therefore in order to compare more accurately information on the rates of illness and death it is helpful to adjust the figures for each country to show what would be happening if each country had the same population structure. The European Standard Population (ESP) is a theoretical population adding up to a total of 100,000 which is widely used to produce European age-standardised rates. This data has been created which is based on an average of states' population projections for 2011 - 2030.\r\n\r\nThis file is split by five year age groups."
+# 
+# $format
+# [1] "CSV"
+#...
+```
+
+To view the data items available within a resource along with their types;
+
+```
+> resource_data_items(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+#                           id    type
+# 1                        _id     int
+# 2                   AgeGroup    text
+# 3 EuropeanStandardPopulation numeric
 ```
 
 &nbsp;

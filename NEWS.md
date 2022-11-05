@@ -12,7 +12,7 @@ chosen resource. A new function provides the old behavior,
 ## Minor Changes
 * Users running an R version < 4.0.0 will no longer be impacted by the  
 `stringsAsFactors == TRUE` default. This change aligns behavior of the package 
-accross compatible versions of R.
+across compatible versions of R.
 
 # odns 1.0.1
 
