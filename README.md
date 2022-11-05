@@ -193,7 +193,7 @@ Package and resource metadata contains useful information about the available da
 # [1] ""
 #
 # $description
-# [1] "Different countries across Europe have different population structures - some have higher percentages of young people, whilst others have a greater proportion of old people. Therefore in order to compare more accurately information on the rates of illness and death it is helpful to adjust the figures for each country to show what would be happening if each country had the same population structure. The European Standard Population (ESP) is a theoretical population adding up to a total of 100,000 which is widely used to produce European age-standardised rates. This data has been created which is based on an average of states' population projections for 2011 - 2030.\r\n\r\nThis file is split by five year age groups."
+# [1] "Different countries across Europe have different population ...
 # 
 # $format
 # [1] "CSV"
