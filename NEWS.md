@@ -1,8 +1,5 @@
 # odns 1.0.2
 
-## New
-
-
 ## POTENTIALLY BREAKING CHANGES
 * `resource_metadata()` now returns the actual metadata of a resource rather
 than a data.frame detailing the names and types of all fields available for the
@@ -17,7 +14,7 @@ across compatible versions of R.
 # odns 1.0.1
 
 ## New
-* Added function `nrow_resource()` returns the number of rows a resource
+* Added function `nrow_resource()` returns the number of rows a resource 
 contains.
 
 ## POTENTIALLY BREAKING CHANGES
