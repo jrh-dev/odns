@@ -1,6 +1,6 @@
 Package: odns
 Title: Access Scottish Health and Social Care Open Data
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: person("James", "Hardy", role=c("aut","cre"),
     email="jrh-dev@protonmail.com")
 Description: Allows potential users of Scottish Health and Social Care Open Data
