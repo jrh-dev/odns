@@ -60,12 +60,12 @@ all_resources <- function(package_contains = NULL, resource_contains = NULL) {
   out <- data.table::rbindlist(out, use.names = TRUE, fill = TRUE)
   
   out <- data.frame(
-    resource_name = unlist(out$name),
-    resource_id = unlist(out$id),
-    package_name = unname(pkgs[unlist(out$package_id)]),
-    package_id = unlist(out$package_id),
-    url = unlist(out$url),
-    last_modified = unlist(out$last_modified),
+    resource_name = unlist(as.character(out$name)),
+    resource_id = unlist(as.character(out$id)),
+    package_name = unname(as.character(pkgs[unlist(out$package_id)])),
+    package_id = unlist(as.character(out$package_id)),
+    url = unlist(as.character(out$url)),
+    last_modified = unlist(as.character(out$last_modified)),
     stringsAsFactors = FALSE
   )
   
