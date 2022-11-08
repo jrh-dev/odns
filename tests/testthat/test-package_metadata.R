@@ -3,7 +3,7 @@ testthat::test_that('function correctly parses response', {
   
   load(testthat::test_path("test_data", "pck_meta_res.rda"))
   
-  mockery::stub(package_metadata, 'httr::GET', function(...) pck_meta_res)
+  mockery::stub(package_metadata, 'httr::RETRY', function(...) pck_meta_res)
   
   testthat::expect_equal(
     digest::digest(package_metadata(package = "standard-populations")),
@@ -15,7 +15,7 @@ testthat::test_that('function correctly provides error response', {
   
   load(testthat::test_path("test_data", "test_res_fail.rda"))
   
-  mockery::stub(package_metadata, 'httr::GET', function(...) test_res_fail)
+  mockery::stub(package_metadata, 'httr::RETRY', function(...) test_res_fail)
   
   testthat::expect_error(package_metadata(resource="standard-populations"))
   

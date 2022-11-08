@@ -2,24 +2,23 @@
 % Please edit documentation in R/resource_metadata.R
 \name{resource_metadata}
 \alias{resource_metadata}
-\title{Get a table of available fields and their types for a specified resource.}
+\title{Get metadata for a resource.}
 \usage{
 resource_metadata(resource)
 }
 \arguments{
-\item{resource}{A character string containing the resource id of the data set
-to be returned.}
+\item{resource}{A character vector of length 1 specifying a resource id
+which identifies the resource for which metadata should be returned.}
 }
 \value{
-A data.frame detailing the names and types of all fields available
-for the chosen resource.
+a list containing the resource metadata.
 }
 \description{
-Get a table of available fields and their types for a specified resource.
+Get a specified resources metadata as a list.
 }
 \examples{
 \dontrun{
-resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+resource_metadata(resource = "edee9731-daf7-4e0d-b525-e4c1469b8f69")
 }
 
 }

@@ -180,10 +180,34 @@ Package and resource metadata contains useful information about the available da
 
 > resource_metadata(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
 
-#   id                          type   
-#   _id                         int    
-#   AgeGroup                    text   
-#   EuropeanStandardPopulation  numeric
+# $cache_last_updated
+# named list()
+#
+# $cache_url
+# named list()
+#
+# $mimetype_inner
+# named list()
+#
+# $hash
+# [1] ""
+#
+# $description
+# [1] "Different countries across Europe have different population ...
+# 
+# $format
+# [1] "CSV"
+#...
+```
+
+To view the data items available within a resource along with their types;
+
+```
+> resource_data_items(resource="edee9731-daf7-4e0d-b525-e4c1469b8f69")
+#                           id    type
+# 1                        _id     int
+# 2                   AgeGroup    text
+# 3 EuropeanStandardPopulation numeric
 ```
 
 &nbsp;

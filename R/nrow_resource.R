@@ -18,7 +18,13 @@ nrow_resource <- function(resource) {
       "SELECT COUNT(*) FROM \"{resource}\"",
     ))
   
-  res <- httr::GET(query)
+  res <- httr::RETRY(
+    verb = "GET",
+    url = query,
+    times = 3,
+    quiet = TRUE,
+    terminate_on = c(404)
+  )
   
   detect_error(res)
   

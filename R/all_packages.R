@@ -23,21 +23,31 @@
 all_packages <- function(contains = NULL, limit = 1000L) {
   
   query = utils::URLencode(glue::glue(
-      "https://www.opendata.nhs.scot/api/3/action/",
-      "package_search?",
-      "{if (is.null(contains)) \"\" else glue::glue(\"q=title:{contains}&\")}",
-      "rows={limit}"
-    ))
+    "https://www.opendata.nhs.scot/api/3/action/",
+    "package_search?",
+    "{if (is.null(contains)) \"\" else glue::glue(\"q=title:{contains}&\")}",
+    "rows={limit}"
+  ))
   
   cap_url(query)
   
-  res <- httr::GET(query)
+  res <- httr::RETRY(
+    verb = "GET",
+    url = query,
+    times = 3,
+    quiet = TRUE,
+    terminate_on = c(404)
+  )
   
   detect_error(res)
   
   out <- jsonlite::fromJSON(jsonlite::toJSON(httr::content(res)$result))$results
   
-  out <- data.frame(package_name=unlist(out$name), package_id = unlist(out$id))
+  out <- data.frame(
+    package_name=unlist(out$name),
+    package_id = unlist(out$id),
+    stringsAsFactors = FALSE
+  )
   
   return(out)
 }
