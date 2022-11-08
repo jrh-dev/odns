@@ -21,7 +21,8 @@ itself is optional, but one of \code{resource} or \code{package} arguments
 must be provided.}
 
 \item{limit}{A numeric value specifying the maximum number of rows to be
-returned. Default value \code{Inf} returns all rows.}
+returned. Default value \code{Inf} returns all rows. Note; when multiple
+resources are returned the limit applies to each.}
 }
 \value{
 A list containing all the resources within a package, or those
